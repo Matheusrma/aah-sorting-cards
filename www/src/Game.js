@@ -16,6 +16,33 @@ Bucket.prototype = {
 	}
 }
 
+Card = function(game, x, y){
+	this.game = game;
+
+	this.cardSprite = this.game.add.sprite(x, y, 'card');
+
+	this.cardSprite.anchor.set(0.5)
+
+	this.cardSprite.inputEnabled = true;
+	this.cardSprite.input.enableDrag();
+	this.cardSprite.events.onDragStart.add(this.onDragStart, this);
+	this.cardSprite.events.onDragStop.add(this.onDragStop, this);
+}
+
+Card.prototype = {
+	onDragStart : function(sprite, pointer) {
+		sprite.scale.x = sprite.scale.y = 1.1;
+	},
+
+	onDragStop: function(sprite, pointer) {
+		sprite.scale.x = sprite.scale.y = 1;
+
+		if (this.game.checkForBucket(pointer.position) >= 0 ||
+			 this.game.checkForBucket(sprite.position) >= 0)
+			sprite.destroy()
+	},
+}
+
 SortCards.Game = function(game) {};
 
 SortCards.Game.prototype = {
@@ -25,26 +52,12 @@ SortCards.Game.prototype = {
 
 	create: function() {
 		for (var i = 0; i < 10; ++i){
-			var card = this.add.sprite(i * 100, 500, 'card');
-
-	    card.inputEnabled = true;
-	    card.input.enableDrag();
-	    card.events.onDragStart.add(this.onDragStart, this);
-	    card.events.onDragStop.add(this.onDragStop, this);
+			new Card(this, i * 120, 500);
 		}
 
 		this.buckets = [
 			new Bucket(100,100,200,200, this.game)
 		]
-	},
-
-	onDragStart : function(sprite, pointer) {
-
-	},
-
-	onDragStop: function(sprite, pointer) {
-		if (this.checkForBucket(sprite.position) >= 0)
-			sprite.destroy()
 	},
 
 	checkForBucket : function(pos) {
