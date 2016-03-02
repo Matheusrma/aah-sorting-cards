@@ -1,5 +1,10 @@
-Bucket = function(x,y,w,h) {
+Bucket = function(x,y,w,h,game) {
 	this.rect = new Phaser.Rectangle(x,y,w,h);
+
+	var graphics = game.add.graphics();
+
+	graphics.lineStyle(2, 0x0000FF, 1);
+  graphics.drawRect(x, y, w, h);
 };
 
 Bucket.prototype = {
@@ -29,7 +34,7 @@ SortCards.Game.prototype = {
 		}
 
 		this.buckets = [
-			new Bucket(100,100,200,200)
+			new Bucket(100,100,200,200, this.game)
 		]
 	},
 
