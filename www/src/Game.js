@@ -2,33 +2,74 @@ SortCards.Game = function(game) {};
 
 SortCards.Game.prototype = {
 	create: function() {
-		this.buildGUI();
+
+		this.templateTitleStyle = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+		this.stage.backgroundColor = "#aaa";
+
+		this.currentTemplateIndex = -1;
+		this.templates = [
+			{
+				title: 'What food does your family like to eat?',
+				cardSet: 'food'
+			},
+			{
+				title: 'What food does your family like to eat?2',
+				cardSet: 'food'
+			}
+		]
 
 		this.buckets = [
 			new Bucket(0,80,640,380, this.game),
 			new Bucket(640,80,640,380, this.game)
 		]
 
+		this.cards = [];
+
 		for (var i = 0; i < 10; ++i){
-			new Card(this, i, 80 + i * 120, 640);
+			this.cards.push(new Card(this, i, 80 + i * 120, 640));
+		}
+
+		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
+
+		this.buildTemplateGUI();
+		this.startNextTemplate();
+	},
+
+	startNextTemplate: function(){
+		this.currentTemplateIndex++;
+
+		if (this.currentTemplateIndex >= this.templates.length){
+				this.templateTitle.text = 'THE END';
+				return;
+		}
+
+		this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
+
+		this.resetCardsPosition();
+		this.clearBuckets();
+	},
+
+	resetCardsPosition: function() {
+		for (var i = 0; i < this.cards.length; ++i){
+			this.cards[i].sprite.position.x = 80 + i * 120,
+			this.cards[i].sprite.position.y = 640;
 		}
 	},
 
-	buildGUI: function(){
-		this.stage.backgroundColor = "#aaa";
+	clearBuckets: function(){
+		for (var i = 0; i < this.buckets.length; ++i){
+			this.buckets[i].clear();
+		}
+	},
 
+	buildTemplateGUI: function(){
 		var titleBar = this.add.graphics();
 		titleBar.beginFill("#0000FF", 1);
 		titleBar.drawRect(0, 0, 1280, 80);
 
-		var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-
-    //  The Text is positioned at 0, 100
-    var text = this.add.text(0, 0, "What food does your family like to eat?", style);
-    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-
-    //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-    text.setTextBounds(0, 00, 1280, 80);
+    this.templateTitle = this.add.text(0, 0, '', this.templateTitleStyle);
+    this.templateTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    this.templateTitle.setTextBounds(0, 00, 1280, 80);
 	},
 
 	getBucketByPosition : function(pos) {

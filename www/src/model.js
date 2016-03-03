@@ -44,12 +44,16 @@ Bucket.prototype = {
 	},
 
 	remove: function(cardId){
-		var index = this.cards.indexOf(cardId);
-
-		if (index >= 0) this.cards.splice(index, 1);
+    var index = this.cards.indexOf(cardId);
+    if (this.hasCardId(cardId)) this.cards.splice(index, 1);
 
 		this.updateScoreText();
 	},
+
+  clear: function(){
+    this.cards = []
+    this.updateScoreText();
+  },
 
 	updateScoreText: function(){
 		this.scoreText.text = 'Cards: ' + this.cards.length;
