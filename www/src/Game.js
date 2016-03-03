@@ -4,8 +4,26 @@ Bucket = function(x,y,w,h,game) {
 
 	var graphics = game.add.graphics();
 
-	graphics.lineStyle(2, 0x0000FF, 1);
+	graphics.lineStyle(2, 0x000, 1);
+	graphics.beginFill(0xAAA, 0.2);
   graphics.drawRect(x, y, w, h);
+
+	var style = { font: "bold 40px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+	var copy = x < 100 ? "Doesn't like to eat":"Likes to eat";
+	var text = game.add.text(0, 0, copy, style);
+	text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+	//  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+	text.setTextBounds(x, y, w, h);
+
+	style = { font: "bold 15px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "middle" };
+
+	copy = 'Cards: 0';
+	this.scoreText = game.add.text(0, 0, copy, style);
+
+	//  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+	this.scoreText.setTextBounds(x, y, w, 100);
 };
 
 Bucket.prototype = {
@@ -22,13 +40,19 @@ Bucket.prototype = {
 
 	add: function(cardId){
 		this.cards.push(cardId);
+		this.updateScoreText();
 	},
 
 	remove: function(cardId){
 		var index = this.cards.indexOf(cardId);
 
-		if (index >= 0)
-			this.cards.splice(index, 1);
+		if (index >= 0) this.cards.splice(index, 1);
+
+		this.updateScoreText();
+	},
+
+	updateScoreText: function(){
+		this.scoreText.text = 'Cards: ' + this.cards.length;
 	}
 }
 
@@ -37,7 +61,6 @@ Card = function(game, index, x, y){
 	this.id = 'card_' + index;
 
 	this.sprite = this.game.add.sprite(x, y, 'card');
-	this.sprite.z = 1;
 
 	this.sprite.anchor.set(0.5);
 
@@ -50,9 +73,6 @@ Card = function(game, index, x, y){
 Card.prototype = {
 	onDragStart : function(sprite, pointer) {
 		sprite.scale.x = sprite.scale.y = 1.1;
-		this.sprite.z = 4;
-
-		console.log(this.sprite)
 
 		var bucketIndex = this.game.getBucketById(this.id);
 
@@ -63,7 +83,6 @@ Card.prototype = {
 
 	onDragStop: function(sprite, pointer) {
 		sprite.scale.x = sprite.scale.y = 1;
-		this.sprite.z = 1;
 
 		var bucketIndex = this.game.getBucketByPosition(pointer.position);
 
@@ -81,14 +100,33 @@ SortCards.Game.prototype = {
 	},
 
 	create: function() {
-		for (var i = 0; i < 10; ++i){
-			new Card(this, i, i * 120, 500);
-		}
+		this.buildGUI();
 
 		this.buckets = [
-			new Bucket(100,70,300,300, this.game),
-			new Bucket(700,70,300,300, this.game)
+			new Bucket(0,80,640,380, this.game),
+			new Bucket(640,80,640,380, this.game)
 		]
+
+		for (var i = 0; i < 10; ++i){
+			new Card(this, i, 80 + i * 120, 640);
+		}
+	},
+
+	buildGUI: function(){
+		this.stage.backgroundColor = "#aaa";
+
+		var titleBar = this.add.graphics();
+		titleBar.beginFill("#0000FF", 1);
+		titleBar.drawRect(0, 0, 1280, 80);
+
+		var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+    //  The Text is positioned at 0, 100
+    var text = this.add.text(0, 0, "What food does your family like to eat?", style);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+    //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+    text.setTextBounds(0, 00, 1280, 80);
 	},
 
 	getBucketByPosition : function(pos) {
