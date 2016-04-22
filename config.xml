@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<widget id="io.cocoon.template.phaser.orb" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:cocoon="http://cocoon.io/ns/1.0">
-    <name>Phaser template</name>
+<widget id="aah.sorting-game" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:cocoon="http://cocoon.io/ns/1.0">
+    <name>AAH Sorting Game</name>
     <description>
-        Phaser template for Cocoon.io cloud compiler based on Andrzej Mazur's Cyber Orb demo at https://github.com/EnclaveGames/Cyber-Orb.
+        Anything
     </description>
-    <author email="andrzej.mazur@end3r.com" href="http://end3r.com/">
-        Andrzej Mazur
+    <author email="matheusmotta.mm@gmail.com">
+        Matheus Almeida
     </author>
     
     <!-- Shown in the wizard -->
@@ -19,6 +19,4 @@
 
     <cocoon:plugin name="com.ludei.canvasplus.ios" />
     <cocoon:plugin name="com.ludei.canvasplus.android" />  
-
-    <cocoon:plugin name="org.apache.cordova.vibration"/> 
 </widget>
