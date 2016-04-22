@@ -10,6 +10,8 @@ SortCards.Boot.prototype = {
 		this.game.scale.pageAlignHorizontally = true;
 		this.game.scale.pageAlignVertically = true;
     
+    this.game.MAX_FOOD_CARDS = 4;
+
 		this.game.state.start('Preloader');
 	}
 };

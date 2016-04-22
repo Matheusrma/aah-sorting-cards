@@ -64,7 +64,7 @@ Card = function(game, index, x, y){
 	this.game = game;
 	this.id = 'card_' + index;
 
-	this.sprite = this.game.add.sprite(x, y, 'card');
+	this.sprite = this.game.add.sprite(x, y, 'food_card_' + (index % 4));
 
 	this.sprite.anchor.set(0.5);
 
