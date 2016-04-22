@@ -1,4 +1,4 @@
-SortCards.Game = function(game) {};
+ SortCards.Game = function(game) {};
 
 SortCards.Game.prototype = {
 	create: function() {
@@ -9,11 +9,11 @@ SortCards.Game.prototype = {
 		this.currentTemplateIndex = -1;
 		this.templates = [
 			{
-				title: 'What food does your family like to eat?',
+				title: 'What food does your family like to eat? [1]',
 				cardSet: 'food'
 			},
 			{
-				title: 'What food does your family like to eat?2',
+				title: 'What food does your family like to eat? [2]',
 				cardSet: 'food'
 			}
 		]
@@ -38,15 +38,23 @@ SortCards.Game.prototype = {
 	startNextTemplate: function(){
 		this.currentTemplateIndex++;
 
-		if (this.currentTemplateIndex >= this.templates.length){
-				this.templateTitle.text = 'THE END';
-				return;
-		}
-
-		this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
-
-		this.resetCardsPosition();
 		this.clearBuckets();
+
+		if (this.currentTemplateIndex >= this.templates.length){
+			this.templateTitle.text = 'THE END';			
+			this.nextTemplateButton.destroy();
+			this.destroyCards();
+		}
+		else {
+			this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
+			this.resetCardsPosition();
+		}
+	},
+
+	destroyCards: function(){
+		for (var i = 0; i < this.cards.length; ++i){
+			this.cards[i].sprite.destroy();
+		}
 	},
 
 	resetCardsPosition: function() {
@@ -70,6 +78,8 @@ SortCards.Game.prototype = {
     this.templateTitle = this.add.text(0, 0, '', this.templateTitleStyle);
     this.templateTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     this.templateTitle.setTextBounds(0, 00, 1280, 80);
+
+		this.nextTemplateButton = this.add.button(this.world.centerX + 500, 20, 'nextArrow', this.startNextTemplate, this);
 	},
 
 	getBucketByPosition : function(pos) {
