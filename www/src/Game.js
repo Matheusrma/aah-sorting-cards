@@ -16,13 +16,17 @@ SortCards.Game.prototype = {
 		this.currentTemplateIndex = -1;
 		this.templates = [
 			{
-				title: 'What food does your family like to eat? [1]',
+				title: 'Which foods are you most likely to feed your youngest child?',
 				cardSet: 'food'
 			},
 			{
-				title: 'What food does your family like to eat? [2]',
+				title: 'Which foods are easiest to get year-round?',
 				cardSet: 'food'
-			}
+			},
+			{
+				title: 'Which foods are easily available to buy on the market?',
+				cardSet: 'food'
+			},
 		]
 
 		this.buckets = [

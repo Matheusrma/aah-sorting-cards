@@ -17,7 +17,7 @@ Bucket = function(x,y,w,h,game) {
     boundsAlignV: "middle" 
   };
 
-  var copy = x < 100 ? "Doesn't like to eat":"Likes to eat";
+  var copy = x < 100 ? "In":"Out";
   var text = game.add.text(0, 0, copy, style);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
