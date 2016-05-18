@@ -1,7 +1,7 @@
 var SortCards = {};
 
 SortCards.constants = {
-  CARD_TYPE_COUNT:2,
+  CARD_TYPE_COUNT:4,
   FRUIT_COUNT:2,
   VEGETABLE_COUNT:22,
   MEAT_COUNT:6,

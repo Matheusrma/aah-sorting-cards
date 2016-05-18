@@ -36,7 +36,7 @@ SortCards.Game.prototype = {
 
 		this.cards = [];
 
-		for (var i = 0; i < 10; ++i){
+		for (var i = 0; i < 18; ++i){
 			this.cards.push(new Card(this, i));
 		}
 
@@ -81,7 +81,7 @@ SortCards.Game.prototype = {
 
 	resetCardsPosition: function() {
 		for (var i = 0; i < this.cards.length; ++i){
-			this.cards[i].sprite.position.x = 100 + i * 120,
+			this.cards[i].sprite.position.x = 130 + i * 60,
 			this.cards[i].sprite.position.y = 650;
 		}
 	},
