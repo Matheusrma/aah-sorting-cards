@@ -3,7 +3,14 @@
 SortCards.Game.prototype = {
 	create: function() {
 
-		this.templateTitleStyle = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+		this.game.add.tileSprite(0, 0, 1280, 800, 'background');
+
+		this.templateTitleStyle = { font: "bold 32px Arial", 
+																fill: "#fff", 
+																boundsAlignH: "center", 
+																boundsAlignV: "middle" 
+															};
+
 		this.stage.backgroundColor = "#aaa";
 
 		this.currentTemplateIndex = -1;
@@ -19,20 +26,31 @@ SortCards.Game.prototype = {
 		]
 
 		this.buckets = [
-			new Bucket(0,80,640,380, this.game),
-			new Bucket(640,80,640,380, this.game)
+			new Bucket(0,140,640,340, this.game),
+			new Bucket(640,140,640,340, this.game)
 		]
 
 		this.cards = [];
 
 		for (var i = 0; i < 10; ++i){
-			this.cards.push(new Card(this, i, 80 + i * 120, 640));
+			this.cards.push(new Card(this, i));
 		}
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 
 		this.buildTemplateGUI();
 		this.startNextTemplate();
+	},
+
+	startPreviousTemplate: function(){
+		if (this.currentTemplateIndex == 0) return;
+
+		this.currentTemplateIndex--;
+
+		this.clearBuckets();
+
+		this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
+		this.resetCardsPosition();
 	},
 
 	startNextTemplate: function(){
@@ -59,8 +77,8 @@ SortCards.Game.prototype = {
 
 	resetCardsPosition: function() {
 		for (var i = 0; i < this.cards.length; ++i){
-			this.cards[i].sprite.position.x = 80 + i * 120,
-			this.cards[i].sprite.position.y = 640;
+			this.cards[i].sprite.position.x = 100 + i * 120,
+			this.cards[i].sprite.position.y = 650;
 		}
 	},
 
@@ -72,14 +90,22 @@ SortCards.Game.prototype = {
 
 	buildTemplateGUI: function(){
 		var titleBar = this.add.graphics();
-		titleBar.beginFill("#0000FF", 1);
-		titleBar.drawRect(0, 0, 1280, 80);
+		titleBar.beginFill("#0000FF", 0.4);
+		titleBar.drawRect(0, 0, 1280, 140);
 
-    this.templateTitle = this.add.text(0, 0, '', this.templateTitleStyle);
+    this.templateTitle = this.add.text(0, 20, '', this.templateTitleStyle);
     this.templateTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    this.templateTitle.setTextBounds(0, 00, 1280, 80);
+    this.templateTitle.setTextBounds(0, 00, 1280, 120);
 
-		this.nextTemplateButton = this.add.button(this.world.centerX + 500, 20, 'nextArrow', this.startNextTemplate, this);
+		this.nextTemplateButton = this.add.button(this.world.centerX + 510, 20, 
+																							'arrow_right_base', 
+																							this.startNextTemplate, 
+																							this);
+
+		this.previousTemplateButton = this.add.button(this.world.centerX - 620, 20, 
+																									'arrow_left_base', 
+																									this.startPreviousTemplate, 
+																									this);
 	},
 
 	getBucketByPosition : function(pos) {

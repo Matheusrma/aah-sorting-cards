@@ -1,5 +1,13 @@
 var SortCards = {};
 
+SortCards.constants = {
+  CARD_TYPE_COUNT:2,
+  FRUIT_COUNT:2,
+  VEGETABLE_COUNT:22,
+  MEAT_COUNT:6,
+  LEGUME_COUNT:2
+};
+
 SortCards.Boot = function(game) {};
 
 SortCards.Boot.prototype = {
@@ -9,8 +17,6 @@ SortCards.Boot.prototype = {
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.game.scale.pageAlignHorizontally = true;
 		this.game.scale.pageAlignVertically = true;
-    
-    this.game.MAX_FOOD_CARDS = 4;
 
 		this.game.state.start('Preloader');
 	}
