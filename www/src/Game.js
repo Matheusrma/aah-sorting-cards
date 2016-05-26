@@ -1,33 +1,18 @@
- SortCards.Game = function(game) {};
+SortCards.Game = function(game) {};
 
 SortCards.Game.prototype = {
 	create: function() {
 
-		this.game.add.tileSprite(0, 0, 1280, 800, 'background');
-
-		this.templateTitleStyle = { font: "bold 32px Arial", 
-																fill: "#fff", 
-																boundsAlignH: "center", 
-																boundsAlignV: "middle" 
-															};
-
+		var templates_ =
+			[
+				new TitleBar('Which foods are you most likely to feed your youngest child?', CARD_SET_TYPE.FOOD),
+				new TitleBar('Which foods are easiest to get year-round?', CARD_SET_TYPE.FOOD),
+				new TitleBar('Which foods are easily available to buy on the market?', CARD_SET_TYPE.FOOD),
+				new TitleBar('The End', CARD_SET_TYPE.END),
+			]
+		this.progressBar = new ProgressBar(this, templates_);
+		
 		this.stage.backgroundColor = "#aaa";
-
-		this.currentTemplateIndex = -1;
-		this.templates = [
-			{
-				title: 'Which foods are you most likely to feed your youngest child?',
-				cardSet: 'food'
-			},
-			{
-				title: 'Which foods are easiest to get year-round?',
-				cardSet: 'food'
-			},
-			{
-				title: 'Which foods are easily available to buy on the market?',
-				cardSet: 'food'
-			},
-		]
 
 		this.buckets = [
 			new Bucket(0,140,640,340, this.game),
@@ -42,33 +27,21 @@ SortCards.Game.prototype = {
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 
-		this.buildTemplateGUI();
 		this.startNextTemplate();
 	},
 
 	startPreviousTemplate: function(){
-		if (this.currentTemplateIndex == 0) return;
-
-		this.currentTemplateIndex--;
-
 		this.clearBuckets();
-
-		this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
 		this.resetCardsPosition();
+		this.progressBar.back();
 	},
 
 	startNextTemplate: function(){
-		this.currentTemplateIndex++;
-
 		this.clearBuckets();
-
-		if (this.currentTemplateIndex >= this.templates.length){
-			this.templateTitle.text = 'THE END';			
-			this.nextTemplateButton.destroy();
+		var isLast = this.progressBar.next();
+		if (isLast) {
 			this.destroyCards();
-		}
-		else {
-			this.templateTitle.text = this.templates[this.currentTemplateIndex].title;
+		} else {
 			this.resetCardsPosition();
 		}
 	},
@@ -90,26 +63,6 @@ SortCards.Game.prototype = {
 		for (var i = 0; i < this.buckets.length; ++i){
 			this.buckets[i].clear();
 		}
-	},
-
-	buildTemplateGUI: function(){
-		var titleBar = this.add.graphics();
-		titleBar.beginFill("#0000FF", 0.4);
-		titleBar.drawRect(0, 0, 1280, 140);
-
-    this.templateTitle = this.add.text(0, 20, '', this.templateTitleStyle);
-    this.templateTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    this.templateTitle.setTextBounds(0, 00, 1280, 120);
-
-		this.nextTemplateButton = this.add.button(this.world.centerX + 510, 20, 
-																							'arrow_right_base', 
-																							this.startNextTemplate, 
-																							this);
-
-		this.previousTemplateButton = this.add.button(this.world.centerX - 620, 20, 
-																									'arrow_left_base', 
-																									this.startPreviousTemplate, 
-																									this);
 	},
 
 	getBucketByPosition : function(pos) {
