@@ -5,18 +5,18 @@ SortCards.Game.prototype = {
 
 		var templates_ =
 			[
-				new TitleBar('Which foods are you most likely to feed your youngest child?', CARD_SET_TYPE.FOOD),
-				new TitleBar('Which foods are easiest to get year-round?', CARD_SET_TYPE.FOOD),
-				new TitleBar('Which foods are easily available to buy on the market?', CARD_SET_TYPE.FOOD),
-				new TitleBar('The End', CARD_SET_TYPE.END),
+				new TitleBar('Which foods are you most likely to feed your youngest child?', ProgressBar.CARD_SET_TYPE.FOOD),
+				new TitleBar('Which foods are easiest to get year-round?', ProgressBar.CARD_SET_TYPE.FOOD),
+				new TitleBar('Which foods are easily available to buy on the market?', ProgressBar.CARD_SET_TYPE.FOOD),
+				new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
 			]
 		this.progressBar = new ProgressBar(this, templates_);
 		
 		this.stage.backgroundColor = "#aaa";
 
 		this.buckets = [
-			new Bucket(0,140,640,340, this.game),
-			new Bucket(640,140,640,340, this.game)
+			new Bucket(0,130,640,340, this.game),
+			new Bucket(640,130,640,340, this.game)
 		]
 
 		this.cards = [];
@@ -27,23 +27,25 @@ SortCards.Game.prototype = {
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 
-		this.startNextTemplate();
-	},
-
-	startPreviousTemplate: function(){
-		this.clearBuckets();
-		this.resetCardsPosition();
-		this.progressBar.back();
+		this.resetCardsAndBuckets();
 	},
 
 	startNextTemplate: function(){
-		this.clearBuckets();
-		var isLast = this.progressBar.next();
+		this.resetCardsAndBuckets();
+		var isLast = this.progressBar.next(this);
 		if (isLast) {
 			this.destroyCards();
-		} else {
-			this.resetCardsPosition();
 		}
+	},
+
+	startPreviousTemplate: function(){
+		this.resetCardsAndBuckets();
+		this.progressBar.back(this);
+	},
+	
+	resetCardsAndBuckets: function() {
+		this.clearBuckets();
+		this.resetCardsPosition();
 	},
 
 	destroyCards: function(){
