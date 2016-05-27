@@ -25,6 +25,9 @@ SortCards.Preloader.prototype = {
     this.load.image('arrow_left_pressed', 'img/arrow_left_pressed.png');
     this.load.image('arrow_right_pressed', 'img/arrow_right_pressed.png');
 
+    this.load.image('dot_active', 'img/dot_current.png');
+    this.load.image('dot_passive', 'img/dot.png');
+
     this.load.image('background', 'img/background.png');
 	},
 
