@@ -3,13 +3,13 @@ SortCards.Game = function(game) {};
 SortCards.Game.prototype = {
 	create: function() {
 
-		var templates_ =
-			[
-				new TitleBar('Which foods are you most likely to feed your youngest child?', ProgressBar.CARD_SET_TYPE.FOOD),
-				new TitleBar('Which foods are easiest to get year-round?', ProgressBar.CARD_SET_TYPE.FOOD),
-				new TitleBar('Which foods are easily available to buy on the market?', ProgressBar.CARD_SET_TYPE.FOOD),
-				new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
-			]
+		var templates_ = [
+			new TitleBar('Which foods are you most likely to feed your youngest child?', ProgressBar.CARD_SET_TYPE.FOOD),
+			new TitleBar('Which foods are easiest to get year-round?', ProgressBar.CARD_SET_TYPE.FOOD),
+			new TitleBar('Which foods are easily available to buy on the market?', ProgressBar.CARD_SET_TYPE.FOOD),
+			new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
+		]
+
 		this.progressBar = new ProgressBar(this, templates_);
 		
 		this.stage.backgroundColor = "#aaa";
@@ -26,8 +26,38 @@ SortCards.Game.prototype = {
 		}
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
+		
+		this.testButton = this.game.add.button(this.game.world.centerX, 400,
+            'arrow_right_base',
+            this.testSave.bind(this),
+            this.game);
+
+		this.testButton = this.game.add.button(this.game.world.centerX, 600,
+            'arrow_right_base',
+            this.testRecover.bind(this),
+            this.game);
+
+ 		var style = { 
+    	font: "bold 40px Arial", 
+    	fill: "#fff", 
+    	boundsAlignH: "center", 
+    	boundsAlignV: "middle" 
+  	};
+
+		this.testText = this.game.add.text(0, 0, 'NOTHING', style);
 
 		this.resetCardsAndBuckets();
+	},
+
+	testSave: function(){
+		var value = Math.random() * 100;
+		localStorage.setItem('Key', value);
+		this.testText.text = "SET: " + value;
+	},
+
+	testRecover: function(){
+		var value = localStorage.getItem('Key');
+		this.testText.text = "RECOVER: " + value;
 	},
 
 	startNextTemplate: function(){
