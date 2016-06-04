@@ -1,49 +1,90 @@
 
-
-Bucket = function(x,y,w,h,game) {
-  this.rect = new Phaser.Rectangle(x,y,w,h);
+Bucket = function(x, bucketText, game) {
   this.cards = [];
+  this.game = game;
+  this.radius = Bucket.imageDiameter / 2;
+  this.y = 140 + this.radius;
+  this.x = x + this.radius;
 
-  var graphics = game.add.graphics();
+  /* Bucket sprite */
+  this.bucketSprite = game.add.sprite(this.x, this.y, 'bucket');
+  /* Resize the sprite */
+  this.bucketSprite.scale.setTo(Bucket.originalScale, Bucket.originalScale);
+  this.bucketSprite.anchor.setTo(0.5, 0.5);
 
-  graphics.lineStyle(2, 0x000, 1);
-  graphics.beginFill(0xAAA, 0.2);
-  graphics.drawRect(x, y, w, h);
-
-  var style = { 
-    font: "bold 40px Arial", 
-    fill: "#fff", 
-    boundsAlignH: "center", 
-    boundsAlignV: "middle" 
+  var bucketTextStyle = {
+    font: "bold 40px Arial",
+    fill: "#fff",
+    boundsAlignH: "center",
+    boundsAlignV: "middle",
+    wordWrap: true,
+    wordWrapWidth: 7*this.radius/4
   };
-
-  var copy = x < 100 ? "In":"Out";
-  var text = game.add.text(0, 0, copy, style);
+  var text = game.add.text(0, 0, bucketText, bucketTextStyle);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+  text.setTextBounds(this.x-7*this.radius/8, this.y-7*this.radius/8, 7*this.radius/4, 7*this.radius/4);
 
-  //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-  text.setTextBounds(x, y, w, h);
-
-  style = { 
-    font: "bold 15px Arial", 
-    fill: "#fff", 
-    boundsAlignH: "left", 
-    boundsAlignV: "top" 
+  var scoreStyle = {
+    font: "bold 15px Arial",
+    fill: "#fff",
+    boundsAlignH: "left",
+    boundsAlignV: "top"
   };
 
   copy = 'Cards: 0';
-  this.scoreText = game.add.text(0, 0, copy, style);
+  this.scoreText = game.add.text(0, 0, copy, scoreStyle);
+  //this.scoreText.setTextBounds(x, y, w, 30);
+};
 
-  //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-  this.scoreText.setTextBounds(x, y, w, 30);
+Bucket.originalScale = 0.7;
+/* Diameter of the buckets */
+Bucket.imageDiameter = 0;
+
+Bucket.imageWidth = 388;
+
+Bucket.createBuckets = function(game, bucketTexts) {
+  var totalNumOfBuckets = bucketTexts.length;
+  Bucket.imageDiameter = Bucket.imageWidth * Bucket.originalScale; // 388x388 is the size of the image
+  var buckets = [];
+  var emptySpace = SortCards.SCREEN_SIZE - totalNumOfBuckets * Bucket.imageDiameter;
+  if (emptySpace < 0) {
+    Bucket.originalScale = Bucket.originalScale - 0.05;
+    return Bucket.createBuckets(game, totalNumOfBuckets);
+  }
+  var spacingBetweenBuckets = emptySpace / (totalNumOfBuckets + 1);
+  var bucketSpace = spacingBetweenBuckets + Bucket.imageDiameter;
+  for(var i =0; i < totalNumOfBuckets; i++) {
+    buckets.push(new Bucket(spacingBetweenBuckets + bucketSpace*i, bucketTexts[i], game));
+  }
+  return buckets;
 };
 
 Bucket.prototype = {
   isInside: function(pos) {
-    var topLeft = this.rect.topLeft;
-    var bottomRight = this.rect.bottomRight;
+    // Using formulae - (x - h)2 + (y - k)2 = r2
+    return Math.sqrt((pos.x-this.x)*(pos.x-this.x) + (pos.y-this.y)*(pos.y-this.y)) < this.radius;
+  },
 
-    return pos.x > topLeft.x && pos.y > topLeft.y && pos.x < bottomRight.x && pos.y < bottomRight.y;
+  scaleUp: function(event) {
+    if (this.bucketSprite.scale.x != Bucket.originalScale) {
+      // Already scaled up.
+      return;
+    }
+    this.bucketSprite.loadTexture('bucket_selected');
+    var scale = Bucket.originalScale * 1.5;
+    this.game.add.tween(
+        this.bucketSprite.scale).to( { x: scale, y: scale },
+        250, Phaser.Easing.Linear.None, true);
+  },
+
+  scaleDown: function(event) {
+    if (this.bucketSprite.scale === this.bucketSprite.originalScale) {
+      return;
+    }
+    this.bucketSprite.loadTexture('bucket');
+    this.game.add.tween(
+        this.bucketSprite.scale).to( { x: Bucket.originalScale, y: Bucket.originalScale },
+        250, Phaser.Easing.Linear.None, true);
   },
 
   hasCardId: function(id) {
@@ -63,11 +104,11 @@ Bucket.prototype = {
   },
 
   clear: function(){
-    this.cards = []
+    this.cards = [];
     this.updateScoreText();
   },
 
   updateScoreText: function(){
     this.scoreText.text = 'Cards: ' + this.cards.length;
   }
-}
+};

@@ -28,6 +28,9 @@ SortCards.Preloader.prototype = {
     this.load.image('dot_active', 'img/dot_current.png');
     this.load.image('dot_passive', 'img/dot.png');
 
+    this.load.image('bucket', 'img/bucket.png');
+    this.load.image('bucket_selected', 'img/bucket_selected.png');
+
     this.load.image('background', 'img/background.png');
 	},
 
