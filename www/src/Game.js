@@ -3,21 +3,8 @@ SortCards.Game = function(game) {};
 SortCards.Game.prototype = {
 	create: function() {
 
-		var templates_ = [
-			new TitleBar('Which foods are you most likely to feed your youngest child?', ProgressBar.CARD_SET_TYPE.FOOD),
-			new TitleBar('Which foods are easiest to get year-round?', ProgressBar.CARD_SET_TYPE.FOOD),
-			new TitleBar('Which foods are easily available to buy on the market?', ProgressBar.CARD_SET_TYPE.FOOD),
-			new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
-		]
-
-		this.progressBar = new ProgressBar(this, templates_);
-		
-		this.stage.backgroundColor = "#aaa";
-
-		this.buckets = [
-			new Bucket(0,130,640,340, this.game),
-			new Bucket(640,130,640,340, this.game)
-		]
+		this.progressBar = new ProgressBar(this, Config.TEMPLATES);
+		this.buckets = Bucket.createBuckets(this, Config.BUCKETS);
 
 		this.cards = [];
 
@@ -75,7 +62,7 @@ SortCards.Game.prototype = {
 	
 	resetCardsAndBuckets: function() {
 		this.clearBuckets();
-		this.resetCardsPosition();
+		this.resetCards();
 	},
 
 	destroyCards: function(){
@@ -84,10 +71,10 @@ SortCards.Game.prototype = {
 		}
 	},
 
-	resetCardsPosition: function() {
+	resetCards: function() {
 		for (var i = 0; i < this.cards.length; ++i){
-			this.cards[i].sprite.position.x = 130 + i * 60,
-			this.cards[i].sprite.position.y = 650;
+			this.cards[i].resetCardPositionAndScale();
+			this.cards[i].showCard();
 		}
 	},
 
@@ -105,19 +92,23 @@ SortCards.Game.prototype = {
 		return -1;
 	},
 
-	getBucketById : function(id){
-		for (var i = 0; i < this.buckets.length; ++i){
-			if (this.buckets[i].hasCardId(id)) return i;
+	addToBucket: function(bucketIndex, card){
+		this.buckets[bucketIndex].add(card);
+	},
+
+	removeFromBucket: function(bucketIndex, card){
+		this.buckets[bucketIndex].remove(card);
+	},
+
+	dispatchBucketScaleUp: function(bucketIndex){
+		this.buckets[bucketIndex].scaleUp();
+	},
+
+	dispatchBucketScaleDown: function(){
+		for(var i = 0; i< this.buckets.length; i++) {
+			this.buckets[i].scaleDown();
 		}
-
-		return -1;
-	},
-
-	addToBucket: function(bucketIndex, cardId){
-		this.buckets[bucketIndex].add(cardId);
-	},
-
-	removeFromBucket: function(bucketIndex, cardId){
-		this.buckets[bucketIndex].remove(cardId);
 	}
 };
+
+SortCards.SCREEN_SIZE = 1280;
