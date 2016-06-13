@@ -10,8 +10,8 @@ SortCards.Game.prototype = {
 			new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
 		]
 
+		this.storageCtrl = new StorageCtrl();
 		this.progressBar = new ProgressBar(this, templates_);
-		
 		this.stage.backgroundColor = "#aaa";
 
 		this.buckets = [
@@ -27,18 +27,13 @@ SortCards.Game.prototype = {
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 		
-		this.testButton = this.game.add.button(this.game.world.centerX, 400,
-            'arrow_right_base',
-            this.testSave.bind(this),
-            this.game);
-
 		this.testButton = this.game.add.button(this.game.world.centerX, 600,
             'arrow_right_base',
             this.testRecover.bind(this),
             this.game);
 
  		var style = { 
-    	font: "bold 40px Arial", 
+    	font: "bold 15px Arial", 
     	fill: "#fff", 
     	boundsAlignH: "center", 
     	boundsAlignV: "middle" 
@@ -49,20 +44,18 @@ SortCards.Game.prototype = {
 		this.resetCardsAndBuckets();
 	},
 
-	testSave: function(){
-		var value = Math.random() * 100;
-		localStorage.setItem('Key', value);
-		this.testText.text = "SET: " + value;
-	},
-
 	testRecover: function(){
-		var value = localStorage.getItem('Key');
-		this.testText.text = "RECOVER: " + value;
+		var t = this.storageCtrl.recoverAllTemplateResults();
+		this.testText.text = JSON.stringify(t)
 	},
 
 	startNextTemplate: function(){
+		this.storageCtrl.saveTemplateResult(0, this.buckets);
+
 		this.resetCardsAndBuckets();
+		
 		var isLast = this.progressBar.next(this);
+
 		if (isLast) {
 			this.destroyCards();
 		}

@@ -1,8 +1,6 @@
-
-
 Bucket = function(x,y,w,h,game) {
   this.rect = new Phaser.Rectangle(x,y,w,h);
-  this.cards = [];
+  this.cardIds = [];
 
   var graphics = game.add.graphics();
 
@@ -18,11 +16,11 @@ Bucket = function(x,y,w,h,game) {
   };
 
   var copy = x < 100 ? "In":"Out";
-  var text = game.add.text(0, 0, copy, style);
-  text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+  this.bucketText = game.add.text(0, 0, copy, style);
+  this.bucketText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
   //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-  text.setTextBounds(x, y, w, h);
+  this.bucketText.setTextBounds(x, y, w, h);
 
   style = { 
     font: "bold 15px Arial", 
@@ -47,27 +45,35 @@ Bucket.prototype = {
   },
 
   hasCardId: function(id) {
-    return this.cards.indexOf(id) >= 0;
+    return this.cardIds.indexOf(id) >= 0;
   },
 
   add: function(cardId){
-    this.cards.push(cardId);
+    this.cardIds.push(cardId);
     this.updateScoreText();
   },
 
   remove: function(cardId){
-    var index = this.cards.indexOf(cardId);
-    if (this.hasCardId(cardId)) this.cards.splice(index, 1);
+    var index = this.cardIds.indexOf(cardId);
+    if (this.hasCardId(cardId)) this.cardIds.splice(index, 1);
 
     this.updateScoreText();
   },
 
   clear: function(){
-    this.cards = []
+    this.cardIds = []
     this.updateScoreText();
   },
 
   updateScoreText: function(){
-    this.scoreText.text = 'Cards: ' + this.cards.length;
+    this.scoreText.text = 'Cards: ' + this.cardIds.length;
+  },
+
+  getCardIds: function(){
+    return this.cardIds;
+  },
+
+  getText: function(){
+    return this.bucketText.text;
   }
 }
