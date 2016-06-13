@@ -5,6 +5,7 @@ Bucket = function(x, bucketText, game) {
   this.radius = Bucket.imageDiameter / 2;
   this.y = 140 + this.radius;
   this.x = x + this.radius;
+  this.isScaledUp = false;
 
   /* Bucket sprite */
   this.bucketSprite = game.add.sprite(this.x, this.y, 'bucket');
@@ -24,16 +25,26 @@ Bucket = function(x, bucketText, game) {
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
   text.setTextBounds(this.x-7*this.radius/8, this.y-7*this.radius/8, 7*this.radius/4, 7*this.radius/4);
 
-  var scoreStyle = {
-    font: "bold 15px Arial",
-    fill: "#fff",
-    boundsAlignH: "left",
-    boundsAlignV: "top"
-  };
+  var scoreStyle = bucketTextStyle;
+  scoreStyle.font = 'bold 30px Arial';
+  scoreStyle.boundsAlignH = 'left';
 
-  copy = 'Cards: 0';
-  this.scoreText = game.add.text(0, 0, copy, scoreStyle);
-  //this.scoreText.setTextBounds(x, y, w, 30);
+  var bucketsDistance = this.radius + 40;
+  var scoreBucketY = this.y + bucketsDistance;
+
+  /* Score bucket sprite */
+  this.scoreBucketSprite = game.add.sprite(this.x, scoreBucketY, 'score_bucket');
+  /* Resize the sprite */
+  this.scoreBucketSprite.scale.setTo(0.15, 0.15);
+  this.scoreBucketSprite.anchor.setTo(0.5, 0.5);
+
+  this.scoreText = game.add.text(0, 0, '0', bucketTextStyle);
+  this.scoreText.setTextBounds(this.x-10, scoreBucketY-20, 20, 50);
+
+  // register event listeners.
+  this.bucketSprite.inputEnabled = true;
+  this.scoreBucketSprite.inputEnabled = true;
+  this.scoreBucketSprite.events.onInputDown.add(this.scaleUpOrDown, this);
 };
 
 Bucket.originalScale = 0.7;
@@ -53,7 +64,7 @@ Bucket.createBuckets = function(game, bucketTexts) {
   }
   var spacingBetweenBuckets = emptySpace / (totalNumOfBuckets + 1);
   var bucketSpace = spacingBetweenBuckets + Bucket.imageDiameter;
-  for(var i =0; i < totalNumOfBuckets; i++) {
+  for(var i = 0; i < totalNumOfBuckets; i++) {
     buckets.push(new Bucket(spacingBetweenBuckets + bucketSpace*i, bucketTexts[i], game));
   }
   return buckets;
@@ -65,9 +76,20 @@ Bucket.prototype = {
     return Math.sqrt((pos.x-this.x)*(pos.x-this.x) + (pos.y-this.y)*(pos.y-this.y)) < this.radius;
   },
 
-  scaleUp: function(event) {
-    if (this.bucketSprite.scale.x != Bucket.originalScale) {
-      // Already scaled up.
+  scaleUpOrDown: function () {
+    if(this.cards.length == 0) {
+      // No need to scale up when there are no cards.
+      return;
+    }
+    if (this.isScaledUp) {
+      this.scaleDown();
+    } else {
+      this.scaleUp();
+    }
+  },
+
+  scaleUp: function() {
+    if (this.isScaledUp) {
       return;
     }
     this.bucketSprite.loadTexture('bucket_selected');
@@ -75,40 +97,59 @@ Bucket.prototype = {
     this.game.add.tween(
         this.bucketSprite.scale).to( { x: scale, y: scale },
         250, Phaser.Easing.Linear.None, true);
+    // show cards
+    for (i = 0; i < this.cards.length; i++) {
+      this.cards[i].setCardInABucket(i, this.x, this.y, this.radius);
+      this.cards[i].showCard();
+    }
+    this.isScaledUp = true;
   },
 
-  scaleDown: function(event) {
-    if (this.bucketSprite.scale === this.bucketSprite.originalScale) {
+  scaleDown: function() {
+    if (!this.isScaledUp) {
       return;
     }
     this.bucketSprite.loadTexture('bucket');
     this.game.add.tween(
         this.bucketSprite.scale).to( { x: Bucket.originalScale, y: Bucket.originalScale },
         250, Phaser.Easing.Linear.None, true);
+    // hide cards
+    for (var i = 0; i < this.cards.length; i++) {
+      this.cards[i].hideCard();
+    }
+    this.isScaledUp = false;
   },
 
-  hasCardId: function(id) {
-    return this.cards.indexOf(id) >= 0;
+  add: function(card){
+    if (this.cards.indexOf(card)>-1) {
+      return;
+    }
+    this.cards.push(card);
+    this.updateScoreTextWithAnimation();
   },
 
-  add: function(cardId){
-    this.cards.push(cardId);
-    this.updateScoreText();
-  },
-
-  remove: function(cardId){
-    var index = this.cards.indexOf(cardId);
-    if (this.hasCardId(cardId)) this.cards.splice(index, 1);
-
-    this.updateScoreText();
+  remove: function(card){
+    var index = this.cards.indexOf(card);
+    if (index < 0) {
+      return;
+    }
+    this.cards = this.cards.slice(0,index).concat(this.cards.slice(index+1))
+    this.updateScoreTextWithoutAnimation();
   },
 
   clear: function(){
     this.cards = [];
-    this.updateScoreText();
+    this.updateScoreTextWithAnimation();
   },
 
-  updateScoreText: function(){
-    this.scoreText.text = 'Cards: ' + this.cards.length;
+  updateScoreTextWithAnimation: function(){
+    y = this.scoreText.y;
+    this.game.add.tween(this.scoreText)
+        .to({y:this.scoreText.y-20}, 50, Phaser.Easing.Linear.NONE, true, true, true, true);
+    this.scoreText.text = this.cards.length;
+  },
+
+  updateScoreTextWithoutAnimation: function(){
+    this.scoreText.text = this.cards.length;
   }
 };

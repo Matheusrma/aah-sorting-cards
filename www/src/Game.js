@@ -32,7 +32,7 @@ SortCards.Game.prototype = {
 	
 	resetCardsAndBuckets: function() {
 		this.clearBuckets();
-		this.resetCardsPosition();
+		this.resetCards();
 	},
 
 	destroyCards: function(){
@@ -41,10 +41,10 @@ SortCards.Game.prototype = {
 		}
 	},
 
-	resetCardsPosition: function() {
+	resetCards: function() {
 		for (var i = 0; i < this.cards.length; ++i){
-			this.cards[i].sprite.position.x = 130 + i * 60,
-			this.cards[i].sprite.position.y = 650;
+			this.cards[i].resetCardPositionAndScale();
+			this.cards[i].showCard();
 		}
 	},
 
@@ -62,16 +62,12 @@ SortCards.Game.prototype = {
 		return -1;
 	},
 
-	getBucketById : function(id){
-		for (var i = 0; i < this.buckets.length; ++i){
-			if (this.buckets[i].hasCardId(id)) return i;
-		}
-
-		return -1;
+	addToBucket: function(bucketIndex, card){
+		this.buckets[bucketIndex].add(card);
 	},
 
-	addToBucket: function(bucketIndex, cardId){
-		this.buckets[bucketIndex].add(cardId);
+	removeFromBucket: function(bucketIndex, card){
+		this.buckets[bucketIndex].remove(card);
 	},
 
 	dispatchBucketScaleUp: function(bucketIndex){
@@ -82,10 +78,6 @@ SortCards.Game.prototype = {
 		for(var i = 0; i< this.buckets.length; i++) {
 			this.buckets[i].scaleDown();
 		}
-	},
-
-	removeFromBucket: function(bucketIndex, cardId){
-		this.buckets[bucketIndex].remove(cardId);
 	}
 };
 
