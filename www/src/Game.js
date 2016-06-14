@@ -56,7 +56,9 @@ SortCards.Game.prototype = {
 
 	getBucketByPosition : function(pos) {
 		for (var i = 0; i < this.buckets.length; ++i){
-			if (this.buckets[i].isInside(pos)) return i;
+			if (this.buckets[i].isInside(pos)) {
+				return i;
+			}
 		}
 
 		return -1;
