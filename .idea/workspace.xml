@@ -4,8 +4,6 @@
     <list default="true" id="4e3b03bc-7de4-46db-bd30-52b1f904df96" name="Default" comment="Refactor to use a progressbar">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/Game.js" afterPath="$PROJECT_DIR$/www/src/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/Preloader.js" afterPath="$PROJECT_DIR$/www/src/Preloader.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/model/bucket.js" afterPath="$PROJECT_DIR$/www/src/model/bucket.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/model/card.js" afterPath="$PROJECT_DIR$/www/src/model/card.js" />
     </list>
     <ignored path="aah-sorting-cards.iws" />
@@ -39,11 +37,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="bucket.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="bucket.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/www/src/model/bucket.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="51">
-                  <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+                <state relative-caret-position="201">
+                  <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
                   <folding />
                 </state>
               </provider>
@@ -69,11 +67,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Game.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/www/src/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="45" column="51" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+                <state relative-caret-position="885">
+                  <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -106,8 +104,8 @@
           <file leaf-file-name="card.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/www/src/model/card.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="378">
-                  <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+                <state relative-caret-position="153">
+                  <caret line="45" column="6" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -136,9 +134,9 @@
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/src/Config.js" />
         <option value="$PROJECT_DIR$/www/src/Preloader.js" />
-        <option value="$PROJECT_DIR$/www/src/model/bucket.js" />
         <option value="$PROJECT_DIR$/www/src/Game.js" />
         <option value="$PROJECT_DIR$/www/src/model/card.js" />
+        <option value="$PROJECT_DIR$/www/src/model/bucket.js" />
       </list>
     </option>
   </component>
@@ -284,12 +282,12 @@
       <updated>1464257690090</updated>
       <workItem from="1464257691305" duration="24880000" />
       <workItem from="1465432209623" duration="67000" />
-      <workItem from="1465583305294" duration="10523000" />
+      <workItem from="1465583305294" duration="11465000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35470000" />
+    <option name="totallyTimeSpent" value="36412000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="23" width="1400" height="810" extended-state="0" />
@@ -462,26 +460,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/src/model/bucket.js">
+    <entry file="file://$PROJECT_DIR$/www/src/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+        <state relative-caret-position="885">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/src/Game.js">
+    <entry file="file://$PROJECT_DIR$/www/src/model/bucket.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="45" column="51" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+        <state relative-caret-position="201">
+          <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/src/model/card.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+        <state relative-caret-position="153">
+          <caret line="45" column="6" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="6" />
           <folding />
         </state>
       </provider>

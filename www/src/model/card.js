@@ -49,11 +49,9 @@ Card.prototype = {
 		this.sprite.scale.setTo(1, 1);
 
 		this.bucketId = this.gameState.getBucketByPosition(pointer.position);
-
 		if (this.bucketId != -1) {
 			this.gameState.addToBucket(this.bucketId, this);
 			this.gameState.dispatchBucketScaleDown();
-			// sprite.visible = false;
 			this.gameState.add.tween(sprite).to( {
 				alpha: 0,
 				visible: false
@@ -77,6 +75,8 @@ Card.prototype = {
 		this.sprite.position.x = 130 + this.positionIndex * 60,
 		this.sprite.position.y = 650;
 		this.sprite.scale.setTo(1, 1);
+		this.sprite.alpha = 1;
+		this.sprite.visible = true;
 	},
 
 	setCardInABucket: function(index, bucketX, bucketY, bucketRadius) {
