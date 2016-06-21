@@ -21,7 +21,9 @@ Bucket = function(x, bucketText, game) {
     wordWrapWidth: 7*this.radius/4
   };
 
-  var text = game.add.text(0, 0, bucketText, bucketTextStyle);
+  this.bucketText = bucketText
+
+  var text = game.add.text(0, 0, this.bucketText, bucketTextStyle);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
   text.setTextBounds(this.x-7*this.radius/8, this.y-7*this.radius/8, 7*this.radius/4, 7*this.radius/4);
 
@@ -151,5 +153,13 @@ Bucket.prototype = {
 
   updateScoreTextWithoutAnimation: function(){
     this.scoreText.text = this.cards.length;
+  },
+
+  getCardIds: function(){
+    return this.cards.map(function(card){return card.id});
+  },
+
+  getText: function(){
+    return this.bucketText;
   }
 };

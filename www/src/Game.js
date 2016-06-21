@@ -25,17 +25,32 @@ SortCards.Game.prototype = {
     	font: "bold 15px Arial", 
     	fill: "#fff", 
     	boundsAlignH: "center", 
-    	boundsAlignV: "middle" 
+    	boundsAlignV: "middle",
+    	wordWrap: "true"
   	};
-
-		this.testText = this.game.add.text(0, 0, 'NOTHING', style);
 
 		this.resetCardsAndBuckets();
 	},
 
+	update: function() {
+		this.cards.forEach(function(card){ card.update() });
+	},
+
 	testRecover: function(){
-		var t = this.storageCtrl.recoverAllTemplateResults();
-		this.testText.text = JSON.stringify(t)
+		var http = new XMLHttpRequest();
+		var url = "https://script.google.com/a/macros/google.com/s/AKfycbx8SY8aS3bICzGcG6xaa9kzEzap15LeFNG_VY--UKFYcT2togM/exec";
+		var params = "data=" + this.storageCtrl.recoverAllTemplateResults();
+		http.open("POST", url, true);
+
+		http.setRequestHeader("Content-type", "application/json");
+
+		http.onreadystatechange = function() {//Call a function when the state changes.
+    	if(http.readyState == 4) {
+        alert(http.responseText);
+    	}
+		}
+
+		http.send(params);
 	},
 
 	startNextTemplate: function(){

@@ -24,7 +24,6 @@ Card = function(gameState, index){
 	}
 
 	this.sprite = this.gameState.add.sprite(0, 0, cardSprite);
-
 	this.sprite.anchor.set(0.5);
 
 	// register event listeners.
@@ -33,11 +32,21 @@ Card = function(gameState, index){
 	this.sprite.events.onDragStart.add(this.onDragStart, this);
 	this.sprite.events.onDragStop.add(this.onDragStop, this);
 	this.sprite.events.onDragUpdate.add(this.onDragUpdate, this);
+
+	var cardNameStyle = {
+    font: "bold 35px Arial",
+    fill: "#fff",
+    boundsAlignH: "center",
+    boundsAlignV: "middle"
+  };
+
+	this.cardName = this.gameState.add.text(0, 0, 'Apple', cardNameStyle);
+	this.cardName.anchor.set(0.5);
 };
 
 Card.prototype = {
 	onDragStart : function(sprite, pointer) {
-		this.sprite.scale.setTo(1.1, 1.1);
+		this.scaleCard(1.1);
 
 		if (this.bucketId != -1) {
 			this.gameState.removeFromBucket(this.bucketId, this);
@@ -46,7 +55,7 @@ Card.prototype = {
 	},
 
 	onDragStop: function(sprite, pointer) {
-		this.sprite.scale.setTo(1, 1);
+		this.scaleCard(1);
 
 		this.bucketId = this.gameState.getBucketByPosition(pointer.position);
 		if (this.bucketId != -1) {
@@ -71,26 +80,44 @@ Card.prototype = {
 		}
 	},
 
+	update: function() {
+		var yOffset = 0.35;
+
+		this.cardName.position.x = Math.floor(this.sprite.x); 
+		this.cardName.position.y = Math.floor(this.sprite.y + (yOffset * this.sprite.height));
+	},
+
+	scaleCard: function(factor){
+		this.sprite.scale.setTo(factor, factor);
+		this.cardName.scale.setTo(factor,factor);
+	},
+
 	resetCardPositionAndScale: function() {
 		this.sprite.position.x = 130 + this.positionIndex * 60,
 		this.sprite.position.y = 650;
-		this.sprite.scale.setTo(1, 1);
+		
+		this.scaleCard(1);
+
 		this.sprite.alpha = 1;
 		this.sprite.visible = true;
 	},
 
 	setCardInABucket: function(index, bucketX, bucketY, bucketRadius) {
 		this.showCard();
-		this.sprite.scale.setTo(0.5, 0.5);
+		this.scaleCard(0.5);
 	},
 
 	hideCard: function() {
 		this.sprite.alpha = 0;
 		this.sprite.visible = false;
+
+		this.cardName.visible = false;
 	},
 
 	showCard: function() {
 		this.sprite.alpha = 1;
 		this.sprite.visible = true;
+
+		this.cardName.visible = true;
 	}
 };
