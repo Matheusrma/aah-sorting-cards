@@ -13,24 +13,21 @@
     </style>
     <script src="cordova.js"></script>
     <script src="lib/phaser.min.js"></script>
-    <!--<script src="src/Boot.js"></script>
-
-    <script src="src/MainMenu.js"></script>
-    <script src="src/Howto.js"></script>
-    <script src="src/Game.js"></script> -->
-
+    
     <!-- Models !-->
     <script src="src/model/bucket.js"></script>
     <script src="src/model/card.js"></script>
     <script src="src/model/progressbar.js"></script>
-
+    
+    <script src="src/config.js"></script>
+    
     <!-- Ctrls !-->
     <script src="src/ctrls/storageCtrl.js"></script>
     
     <script src="src/boot.js"></script>
-    <script src="src/config.js"></script>
-    <script src="src/game.js"></script>
     <script src="src/preloader.js"></script>
+    <script src="src/game.js"></script>
+    <script src="src/end.js"></script>
 </head>
 
 <body>
@@ -47,9 +44,8 @@
 
         game.state.add('Boot', SortCards.Boot);
         game.state.add('Preloader', SortCards.Preloader);
-        //game.state.add('MainMenu', Ball.MainMenu);
-        //game.state.add('Howto', Ball.Howto);
         game.state.add('Game', SortCards.Game);
+        game.state.add('End', SortCards.End);
 
         game.state.start('Boot');
     })();

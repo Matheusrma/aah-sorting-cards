@@ -2,7 +2,16 @@ SortCards.Preloader = function(game) {};
 
 SortCards.Preloader.prototype = {
 	preload: function() {
-		for (var i = 0; i < SortCards.constants.FRUIT_COUNT; ++i){
+
+    this.load.onFileComplete.add(function(progress, cacheKey, success, totalLoaded, totalFiles){
+      console.log(progress)
+    }, this);
+
+    this.load.onLoadComplete.add(function(){
+      console.log('Load Complete')
+    }, this);
+
+	  for (var i = 0; i < SortCards.constants.FRUIT_COUNT; ++i){
       this.load.image('card_fruit_' + i, 'img/fruit_' + i + '.png');
     }
 
@@ -17,7 +26,7 @@ SortCards.Preloader.prototype = {
     for (var i = 0; i < SortCards.constants.LEGUME_COUNT; ++i){
       this.load.image('card_legume_' + i, 'img/legume_' + i + '.png');
     }
-    
+  
     this.load.image('arrow_left_base', 'img/arrow_left_base.png');
     this.load.image('arrow_right_base', 'img/arrow_right_base.png');
     this.load.image('arrow_left_dimmed', 'img/arrow_left_dimmed.png');
@@ -33,6 +42,7 @@ SortCards.Preloader.prototype = {
     this.load.image('bucket_selected', 'img/bucket_selected.png');
 
     this.load.image('background', 'img/background.png');
+    this.load.video('end_video', 'video/end_video.mp4');
 	},
 
 	create: function() {

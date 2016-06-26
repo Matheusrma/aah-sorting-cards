@@ -38,7 +38,7 @@ SortCards.Game.prototype = {
 
 	testRecover: function(){
 		var http = new XMLHttpRequest();
-		var url = "https://script.google.com/a/macros/google.com/s/AKfycbx8SY8aS3bICzGcG6xaa9kzEzap15LeFNG_VY--UKFYcT2togM/exec";
+		var url = "https://script.google.com/macros/s/AKfycbyrFHtOs58Xmm8AOQYj2j2x3YFcPwpPpZ2oTfDaQ_Xj/dev";
 		var params = "data=" + this.storageCtrl.recoverAllTemplateResults();
 		http.open("POST", url, true);
 
@@ -61,7 +61,7 @@ SortCards.Game.prototype = {
 		var isLast = this.progressBar.next(this);
 
 		if (isLast) {
-			this.destroyCards();
+			this.game.state.start('End');
 		}
 	},
 
