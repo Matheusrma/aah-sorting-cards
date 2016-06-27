@@ -2,6 +2,7 @@ SortCards.Game = function(game) {};
 
 SortCards.Game.prototype = {
 	create: function() {
+		this.game.add.tileSprite(0, 0, 1280, 800, 'background');
 
 		this.stage.backgroundColor = "#aaa";
 		this.storageCtrl = new StorageCtrl();
@@ -20,14 +21,6 @@ SortCards.Game.prototype = {
             'arrow_right_base',
             this.testRecover.bind(this),
             this.game);
-
- 		var style = { 
-    	font: "bold 15px Arial", 
-    	fill: "#fff", 
-    	boundsAlignH: "center", 
-    	boundsAlignV: "middle",
-    	wordWrap: "true"
-  	};
 
 		this.resetCardsAndBuckets();
 	},

@@ -4,11 +4,11 @@ SortCards.Preloader.prototype = {
 	preload: function() {
 
     this.load.onFileComplete.add(function(progress, cacheKey, success, totalLoaded, totalFiles){
-      console.log(progress)
+      //console.log(progress)
     }, this);
 
     this.load.onLoadComplete.add(function(){
-      console.log('Load Complete')
+      //console.log('Load Complete')
     }, this);
 
 	  for (var i = 0; i < SortCards.constants.FRUIT_COUNT; ++i){
@@ -46,6 +46,6 @@ SortCards.Preloader.prototype = {
 	},
 
 	create: function() {
-		this.game.state.start('Game');
+		this.game.state.start('MainMenu');
 	}
 };

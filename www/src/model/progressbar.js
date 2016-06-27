@@ -57,8 +57,6 @@ ProgressBar.prototype = {
         return this.titles[index] != undefined;
     },
     render_: function(game) {
-        game.add.tileSprite(0, 0, 1280, 800, 'background');
-
         this.titleBarElement = TitleBar.prepareForRendering(game);
 
         this.nextButton = game.add.button(game.world.centerX + 510, 20,
@@ -70,6 +68,7 @@ ProgressBar.prototype = {
             'arrow_left_base',
             game.startPreviousTemplate,
             game);
+
         this.next(game);
     },
     renderProgressDots: function(game) {
