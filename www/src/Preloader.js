@@ -32,7 +32,7 @@ SortCards.Preloader.prototype = {
     this.load.image('bucket', 'img/bucket.png');
     this.load.image('bucket_selected', 'img/bucket_selected.png');
 
-    this.load.image('background', 'img/background.png');
+    this.load.image('background', 'img/Background.png');
 	},
 
 	create: function() {
