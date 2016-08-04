@@ -98,7 +98,6 @@ TitleBar = function(title, cardset) {
 
 TitleBar.prepareForRendering = function(game) {
     var titleBar = game.add.graphics();
-    titleBar.beginFill("#0000FF", 0.4);
     titleBar.drawRect(0, 0, 1280, 130);
 
     var titleElement = game.add.text(0, 20, '', TitleBar.getStyle());

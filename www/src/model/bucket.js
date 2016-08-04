@@ -3,7 +3,7 @@ Bucket = function(x, bucketText, game) {
   this.cards = [];
   this.game = game;
   this.radius = Bucket.imageDiameter / 2;
-  this.y = 140 + this.radius;
+  this.y = 180 + this.radius;
   this.x = x + this.radius;
   this.isScaledUp = false;
 
@@ -14,7 +14,7 @@ Bucket = function(x, bucketText, game) {
   this.bucketSprite.anchor.setTo(0.5, 0.5);
 
   var bucketTextStyle = {
-    font: "bold 40px Arial",
+    font: '24px Helvetica Neue',
     fill: "#fff",
     boundsAlignH: "center",
     boundsAlignV: "middle",
@@ -23,28 +23,17 @@ Bucket = function(x, bucketText, game) {
   };
   var text = game.add.text(0, 0, bucketText, bucketTextStyle);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-  text.setTextBounds(this.x-7*this.radius/8, this.y-7*this.radius/8, 7*this.radius/4, 7*this.radius/4);
+  text.setTextBounds(this.x-this.radius, this.y+this.radius/8, 2*this.radius, 2*this.radius);
 
   var scoreStyle = bucketTextStyle;
-  scoreStyle.font = 'bold 30px Arial';
   scoreStyle.boundsAlignH = 'left';
 
-  var bucketsDistance = this.radius + 40;
-  var scoreBucketY = this.y + bucketsDistance;
-
-  /* Score bucket sprite */
-  this.scoreBucketSprite = game.add.sprite(this.x, scoreBucketY, 'score_bucket');
-  /* Resize the sprite */
-  this.scoreBucketSprite.scale.setTo(0.15, 0.15);
-  this.scoreBucketSprite.anchor.setTo(0.5, 0.5);
-
   this.scoreText = game.add.text(0, 0, '0', bucketTextStyle);
-  this.scoreText.setTextBounds(this.x-10, scoreBucketY-20, 20, 50);
+  this.scoreText.setTextBounds(this.x-10, this.y-20, 20, 50);
 
   // register event listeners.
   this.bucketSprite.inputEnabled = true;
-  this.scoreBucketSprite.inputEnabled = true;
-  this.scoreBucketSprite.events.onInputDown.add(this.scaleUpOrDown, this);
+  this.bucketSprite.events.onInputDown.add(this.scaleUpOrDown, this);
 };
 
 Bucket.originalScale = 0.7;
@@ -92,8 +81,8 @@ Bucket.prototype = {
     if (this.isScaledUp) {
       return;
     }
-    this.bucketSprite.loadTexture('bucket_selected');
-    var scale = Bucket.originalScale * 1.5;
+    //this.bucketSprite.loadTexture('bucket_selected');
+    var scale = Bucket.originalScale * 2;
     this.game.add.tween(
         this.bucketSprite.scale).to( { x: scale, y: scale },
         250, Phaser.Easing.Linear.None, true);

@@ -7,19 +7,20 @@ Card = function(gameState, index){
 	this.bucketId = -1;
 
 	var cardSprite = '';
+	var cardIndex = Math.floor(index / SortCards.constants.CARD_TYPE_COUNT);
 
 	switch (index % SortCards.constants.CARD_TYPE_COUNT){
 		case 0:
-			cardSprite = 'card_fruit_' + (index % SortCards.constants.FRUIT_COUNT);
+			cardSprite = 'card_vegetable_' + cardIndex;
 			break;
 		case 1:
-			cardSprite = 'card_vegetable_' + (index % SortCards.constants.VEGETABLE_COUNT);
+			cardSprite = 'card_fruit_' + cardIndex;
 			break;
 		case 2:
-			cardSprite = 'card_meat_' + (index % SortCards.constants.MEAT_COUNT);
+			cardSprite = 'card_meat_' + cardIndex;
 			break;
 		case 3:
-			cardSprite = 'card_legume_' + (index % SortCards.constants.LEGUME_COUNT);
+			cardSprite = 'card_legume_' + cardIndex;
 			break;
 	}
 
@@ -35,10 +36,10 @@ Card = function(gameState, index){
 	this.sprite.events.onDragUpdate.add(this.onDragUpdate, this);
 };
 
+Card.GAP_BETWEEN_CARDS = 1000 / SortCards.constants.TOTAL_CARDS_COUNT;
+
 Card.prototype = {
 	onDragStart : function(sprite, pointer) {
-		this.sprite.scale.setTo(1.1, 1.1);
-
 		if (this.bucketId != -1) {
 			this.gameState.removeFromBucket(this.bucketId, this);
 			this.bucketId = -1;
@@ -46,8 +47,6 @@ Card.prototype = {
 	},
 
 	onDragStop: function(sprite, pointer) {
-		this.sprite.scale.setTo(1, 1);
-
 		this.bucketId = this.gameState.getBucketByPosition(pointer.position);
 		if (this.bucketId != -1) {
 			this.gameState.addToBucket(this.bucketId, this);
@@ -66,22 +65,35 @@ Card.prototype = {
 
 		if (bucketIndex != -1) {
 			this.gameState.dispatchBucketScaleUp(bucketIndex);
+			this.scaleCardDownWithAnimation();
 		} else {
 			this.gameState.dispatchBucketScaleDown();
+			this.scaleCardUpWithAnimation();
 		}
 	},
 
 	resetCardPositionAndScale: function() {
-		this.sprite.position.x = 130 + this.positionIndex * 60,
+		this.sprite.position.x = Card.GAP_BETWEEN_CARDS + this.positionIndex * Card.GAP_BETWEEN_CARDS,
 		this.sprite.position.y = 650;
-		this.sprite.scale.setTo(1, 1);
 		this.sprite.alpha = 1;
 		this.sprite.visible = true;
+		this.sprite.scale.setTo(1, 1);
 	},
 
 	setCardInABucket: function(index, bucketX, bucketY, bucketRadius) {
 		this.showCard();
-		this.sprite.scale.setTo(0.5, 0.5);
+	},
+
+	scaleCardDownWithAnimation: function() {
+    this.gameState.add.tween(
+        this.sprite.scale).to( { x: 0.5, y: 0.5 },
+        150, Phaser.Easing.Linear.None, true);
+	},
+
+	scaleCardUpWithAnimation: function() {
+    this.gameState.add.tween(
+        this.sprite.scale).to( { x: 1, y: 1 },
+        150, Phaser.Easing.Linear.None, true);
 	},
 
 	hideCard: function() {

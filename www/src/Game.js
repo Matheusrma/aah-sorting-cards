@@ -8,7 +8,7 @@ SortCards.Game.prototype = {
 
 		this.cards = [];
 
-		for (var i = 0; i < 18; ++i){
+		for (var i = 0; i < SortCards.constants.TOTAL_CARDS_COUNT; ++i){
 			this.cards.push(new Card(this, i));
 		}
 
