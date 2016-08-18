@@ -1,22 +1,21 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<widget id="io.cocoon.aah.sortinggame" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:cocoon="http://cocoon.io/ns/1.0">
-    <name>AAH Sorting Game</name>
-    <description>
-        Anything
-    </description>
-    <author email="matheusmotta.mm@gmail.com">
-        Matheus Almeida
-    </author>
-    
-    <!-- Shown in the wizard -->
-    <icon src="icon.png" />
-
-    <content src="index.html" />
-    <access origin="*"/>
-
-    <preference name="Orientation" value="portrait" />
-    <preference name="Fullscreen" value="true" />
-
-    <cocoon:plugin name="com.ludei.canvasplus.ios" />
-    <cocoon:plugin name="com.ludei.canvasplus.android" />  
-</widget>
+<?xml version="1.0" encoding="utf-8"?>
+    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:cocoon="http://cocoon.io/ns/1.0" id="io.cocoon.aah.sortinggame" version="1.0.3">
+        <name>AAH Sorting Game</name>
+        <description>
+                                Anything
+                    </description>
+        <author email="matheusmotta.mm@gmail.com">
+                                Matheus Almeida
+                    </author>
+        <!-- Shown in the wizard -->
+        <icon src="icon.png"/>
+        <content src="index.html"/>
+        <access origin="*"/>
+        <preference name="Orientation" value="landscape"/>
+        <preference name="Fullscreen" value="true"/>
+        <platform name="ios">
+            <preference name="enabled" value="false"/>
+        </platform>
+        <plugin name="com.ludei.canvasplus.ios" spec="*"/>
+        <plugin name="com.ludei.canvasplus.android" spec="*"/>
+    </widget>
