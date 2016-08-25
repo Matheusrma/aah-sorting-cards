@@ -10,7 +10,6 @@
         background: #2B2E31;
     }
     </style>
-    <script src="cordova.js"></script>
     <script src="lib/phaser.min.js"></script>
     
     <!-- Models !-->
@@ -31,8 +30,10 @@
 </head>
 
 <body>
-    <script>
-    (function() {
+    <script type="text/javascript">
+    function init() {
+        console.log(window.cocoonjsphaser)
+
         var game = new Phaser.Game(1280, 800, Phaser.CANVAS, 'game');
 
         game.state.add('Boot', SortCards.Boot);
@@ -42,7 +43,9 @@
         game.state.add('End', SortCards.End);
 
         game.state.start('Boot');
-    })();
+    };
+
+    navigator.isCocoonJS ? init() : window.onload = init
     </script>
 </body>
 
