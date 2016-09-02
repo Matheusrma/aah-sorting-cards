@@ -18,7 +18,7 @@ SortCards.MainMenu.prototype = {
 
     var titleElement = this.game.add.text(0, 300, 'Sorting Cards\nPress to Start', style);
     titleElement.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    titleElement.setTextBounds(0, 00, 1280, 130);
+    //titleElement.setTextBounds(0, 00, 1280, 130);
   },
 
   startGame: function(){

@@ -42,7 +42,7 @@ SortCards.Preloader.prototype = {
     this.load.image('bucket_selected', 'img/bucket_selected.png');
 
     this.load.image('background', 'img/background.png');
-    this.load.video('end_video', 'video/end_video.mp4');
+    //this.load.video('end_video', 'video/end_video.mp4');
 	},
 
 	create: function() {
