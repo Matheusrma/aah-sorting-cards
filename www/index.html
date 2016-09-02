@@ -5,14 +5,13 @@
         <meta charset="utf-8" />
         <title>AAH Sorting Game Demo</title>
         <style>
-        body {
-            margin: 0;
-            background: #2B2E31;
-        }
+            body {
+                margin: 0;
+                background: #2B2E31;
+            }
         </style>
 
         <script src="cordova.js"></script>
-
         <script src="src/phaser.js"></script>
         
         <!-- Models !-->
@@ -33,7 +32,7 @@
     </head>
 
     <body>
-        <script type="text/javascript">
+        <script>
             document.addEventListener("deviceready", function() {
                 setTimeout(function() {
                     navigator.splashscreen.hide();
@@ -41,7 +40,7 @@
             });
 
             (function() {
-                var game = new Phaser.Game(1280, 800, Phaser.CANVAS, 'game');
+                var game = new Phaser.Game(480, 320, Phaser.CANVAS, 'game');
 
                 game.state.add('Boot', SortCards.Boot);
                 game.state.add('Preloader', SortCards.Preloader);
