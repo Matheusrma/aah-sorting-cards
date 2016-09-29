@@ -14,7 +14,7 @@
     <content src="index.html"/>
     <access origin="*"/>
     
-    <preference name="Orientation" value="portrait"/>
+    <preference name="Orientation" value="landscape"/>
     <preference name="Fullscreen" value="true"/>
     
     <platform name="ios">
