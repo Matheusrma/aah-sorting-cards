@@ -19,7 +19,6 @@
 }
 */
 
-
 StorageCtrl = function(){}
 
 ProgressBar.LOCAL_STORAGE_KEY_ = 'template_results';
@@ -31,8 +30,12 @@ StorageCtrl.prototype = {
   },
 
   saveTemplateResult:function(templateId, buckets){
+    var template_results = this.recoverAllTemplateResults();
+    
+    if (template_results.length > 0)
+      template_results = JSON.parse(JSON.parse(template_results));
 
-    var template_results = this.recoverAllTemplateResults()
+    console.log(template_results)
 
     new_template_result = {};
     new_template_result.id = this.generateRandomId();
@@ -62,7 +65,10 @@ StorageCtrl.prototype = {
 
     if (!template_results) return []
 
-    return JSON.parse(template_results);
-  }
+    return JSON.stringify(template_results);
+  },
 
+  clearTemplateResults:function(){
+    localStorage.removeItem(ProgressBar.LOCAL_STORAGE_KEY_)
+  }
 }

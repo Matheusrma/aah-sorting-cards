@@ -12,6 +12,7 @@ SortCards.Boot = function(game) {};
 
 SortCards.Boot.prototype = {
 	preload: function() {
+        this.game.load.crossOrigin = "anonymous";
 	},
 	create: function() {
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;

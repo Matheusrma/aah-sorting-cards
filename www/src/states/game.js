@@ -16,34 +16,12 @@ SortCards.Game.prototype = {
 		}
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
-		
-		this.testButton = this.game.add.button(this.game.world.centerX, 600,
-            'arrow_right_base',
-            this.testRecover.bind(this),
-            this.game);
 
 		this.resetCardsAndBuckets();
 	},
 
 	update: function() {
 		this.cards.forEach(function(card){ card.update() });
-	},
-
-	testRecover: function(){
-		var http = new XMLHttpRequest();
-		var url = "https://script.google.com/macros/s/AKfycbyrFHtOs58Xmm8AOQYj2j2x3YFcPwpPpZ2oTfDaQ_Xj/dev";
-		var params = "data=" + this.storageCtrl.recoverAllTemplateResults();
-		http.open("POST", url, true);
-
-		http.setRequestHeader("Content-type", "application/json");
-
-		http.onreadystatechange = function() {//Call a function when the state changes.
-    	if(http.readyState == 4) {
-        alert(http.responseText);
-    	}
-		}
-
-		http.send(params);
 	},
 
 	startNextTemplate: function(){
