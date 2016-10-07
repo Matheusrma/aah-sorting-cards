@@ -6,6 +6,7 @@ SortCards.Game.prototype = {
 
 		this.stage.backgroundColor = "#aaa";
 		this.storageCtrl = new StorageCtrl();
+		this.storageCtrl.generateNewUserId();
 		this.progressBar = new ProgressBar(this, Config.TEMPLATES);
 		this.buckets = Bucket.createBuckets(this, Config.BUCKETS);
 

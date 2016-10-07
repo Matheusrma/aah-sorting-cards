@@ -21,12 +21,18 @@
 
 StorageCtrl = function(){}
 
-ProgressBar.LOCAL_STORAGE_KEY_ = 'template_results';
+StorageCtrl.LOCAL_STORAGE_KEY_ = 'template_results';
+
+StorageCtrl.USER_ID = -1;
 
 StorageCtrl.prototype = {
 
   generateRandomId: function(){
     return Math.round(Math.random() * 10000000)
+  },
+
+  generateNewUserId: function(){
+    StorageCtrl.USER_ID = this.generateRandomId()
   },
 
   saveTemplateResult:function(templateId, buckets){
@@ -40,7 +46,9 @@ StorageCtrl.prototype = {
     new_template_result = {};
     new_template_result.id = this.generateRandomId();
     new_template_result.templateId = templateId;
-    new_template_result.user = {}
+    new_template_result.user = {
+      id: StorageCtrl.USER_ID
+    }
 
     new_template_result.cardsMapping = [];
 
@@ -57,11 +65,11 @@ StorageCtrl.prototype = {
     });
 
     template_results.push(new_template_result);
-    localStorage.setItem(ProgressBar.LOCAL_STORAGE_KEY_, JSON.stringify(template_results));
+    localStorage.setItem(StorageCtrl.LOCAL_STORAGE_KEY_, JSON.stringify(template_results));
   },
 
   recoverAllTemplateResults:function(){
-    var template_results = localStorage.getItem(ProgressBar.LOCAL_STORAGE_KEY_)
+    var template_results = localStorage.getItem(StorageCtrl.LOCAL_STORAGE_KEY_)
 
     if (!template_results) return []
 
@@ -69,6 +77,6 @@ StorageCtrl.prototype = {
   },
 
   clearTemplateResults:function(){
-    localStorage.removeItem(ProgressBar.LOCAL_STORAGE_KEY_)
+    localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_)
   }
 }
