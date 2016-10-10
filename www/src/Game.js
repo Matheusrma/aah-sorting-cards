@@ -103,7 +103,7 @@ SortCards.Game.prototype = {
 	},
 
 	addEnlargedBucketControls: function() {
-	    this.backgroundSprite = this.add.sprite(0, 0, 'background_drop');
+	    this.backgroundSprite = this.add.tileSprite(0, 0, 1280, 800, 'background_drop');
 	    this.backgroundSprite.tint = 0xffffff;
 	    this.backgroundSprite.height = window.screen.height;
 	    this.backgroundSprite.width = window.screen.width;
