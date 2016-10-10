@@ -14,4 +14,11 @@ Config = {
         'Likes to eat',
         'Loves it',
     ],
+    CARDS: {
+        // Type: [COUNT, IMAGE_PREFIX, IMAGE/PATH_PREFIX, CARD_POSITION]
+        VEGETARIAN: [3, 'card_vegetable_', 'img/vegetable_', 0],
+        MEAT: [1, 'card_meat_', 'img/meat_', 1],
+        LEGUME: [1, 'card_legume_', 'img/legume_', 2],
+        FRUIT: [1, 'card_fruit_', 'img/fruit_', 3]
+    }
 }

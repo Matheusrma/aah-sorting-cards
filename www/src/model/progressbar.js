@@ -57,19 +57,21 @@ ProgressBar.prototype = {
         return this.titles[index] != undefined;
     },
     render_: function(game) {
-        game.add.tileSprite(0, 0, 1280, 800, 'background');
+        game.group.add(game.make.tileSprite(0, 0, 1280, 800, 'background'));
 
         this.titleBarElement = TitleBar.prepareForRendering(game);
 
-        this.nextButton = game.add.button(game.world.centerX + 510, 20,
+        this.nextButton = game.make.button(game.world.centerX + 510, 20,
             'arrow_right_base',
             game.startNextTemplate,
             game);
+        game.group.add(this.nextButton);
 
-        this.previousButton = game.add.button(game.world.centerX - 620, 20,
+        this.previousButton = game.make.button(game.world.centerX - 620, 20,
             'arrow_left_base',
             game.startPreviousTemplate,
             game);
+        game.group.add(this.previousButton);
         this.next(game);
     },
     renderProgressDots: function(game) {
