@@ -21,14 +21,14 @@ Bucket = function(x, bucketText, game) {
     wordWrap: true,
     wordWrapWidth: 7*this.radius/4
   };
-  var text = game.add.text(0, 0, bucketText, bucketTextStyle, game.group);
+  var text = game.add.text(0, 0, bucketText, bucketTextStyle, game.bucketGroup);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
   text.setTextBounds(this.x-this.radius, this.y+this.radius/8, 2*this.radius, 2*this.radius);
 
   var scoreStyle = bucketTextStyle;
   scoreStyle.boundsAlignH = 'left';
 
-  this.scoreText = game.add.text(0, 0, '0', bucketTextStyle, game.group);
+  this.scoreText = game.add.text(0, 0, '0', bucketTextStyle, game.bucketGroup);
   game.bucketGroup.add(this.scoreText);
   this.scoreText.setTextBounds(this.x-10, this.y - 20, 20, 50);
 
@@ -46,6 +46,9 @@ Bucket.imageWidth = 388;
 Bucket.scaledBeyond = false;
 
 Bucket.createBuckets = function(game, bucketTexts) {
+  if (game.buckets) {
+    game.bucketGroup.removeAll(true);
+  }
   /* Enlarged bucket sprite */
   var scaledUpBucketSprite = game.add.sprite(500, 50, 'large_bucket');
   scaledUpBucketSprite.visible = false;
@@ -199,5 +202,5 @@ Bucket.prototype = {
 
   updateScoreTextWithoutAnimation: function(){
     this.scoreText.text = this.cards.length;
-  }
+  },
 };

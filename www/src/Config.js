@@ -10,9 +10,9 @@ Config = {
         new TitleBar('The End', ProgressBar.CARD_SET_TYPE.END),
     ],
     BUCKETS: [
-        'Does not like to eat.',
-        'Likes to eat',
-        'Loves it',
+      ['Like', 'Dislike', 'Love'],
+      ['Nada'],
+      ['1', '2', '3', '4'],
     ],
     CARDS: {
         // Type: [COUNT, IMAGE_PREFIX, IMAGE/PATH_PREFIX, CARD_POSITION]

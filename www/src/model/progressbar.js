@@ -2,8 +2,9 @@
  * Defines a progressbar object.
  * @param titles an array of {@code TitleBar}s
  */
-ProgressBar = function(game, titles) {
+ProgressBar = function(game, titles, buckets) {
     this.titles = titles;
+    this.buckets = buckets;
     this.size = titles.length;
     this.index = -1;
     /* next button */
@@ -39,6 +40,8 @@ ProgressBar.prototype = {
         if(!this.canNavigateTo(this.index+1)) return;
         this.titles[++this.index].render(this.titleBarElement);
         this.renderProgressDots(game);
+      
+        game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
 
         var isLast = !this.canNavigateTo(this.index+1);
 
@@ -52,6 +55,8 @@ ProgressBar.prototype = {
 
         this.titles[--this.index].render(this.titleBarElement);
         this.renderProgressDots(game);
+        
+        game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
     },
     canNavigateTo: function(index) {
         return this.titles[index] != undefined;

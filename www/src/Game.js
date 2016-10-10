@@ -3,9 +3,8 @@ SortCards.Game = function(game) {};
 SortCards.Game.prototype = {
 	create: function() {
 		this.group = this.add.group();
-		this.progressBar = new ProgressBar(this, Config.TEMPLATES);
 		this.bucketGroup = this.add.group();
-		this.buckets = Bucket.createBuckets(this, Config.BUCKETS);
+		this.progressBar = new ProgressBar(this, Config.TEMPLATES, Config.BUCKETS);
 
 		this.cards = [];
 
