@@ -1,29 +1,16 @@
 
 
-Card = function(gameState, index){
+Card = function(gameState, cardConfigName, cardIndex){
 	this.gameState = gameState;
-	this.id = 'card_' + index;
-	this.positionIndex = index;
-	this.bucketId = -1;
+	this.bucket = null;
 
-	var cardSprite = '';
-
-	switch (index % SortCards.constants.CARD_TYPE_COUNT){
-		case 0:
-			cardSprite = 'card_fruit_' + (index % SortCards.constants.FRUIT_COUNT);
-			break;
-		case 1:
-			cardSprite = 'card_vegetable_' + (index % SortCards.constants.VEGETABLE_COUNT);
-			break;
-		case 2:
-			cardSprite = 'card_meat_' + (index % SortCards.constants.MEAT_COUNT);
-			break;
-		case 3:
-			cardSprite = 'card_legume_' + (index % SortCards.constants.LEGUME_COUNT);
-			break;
-	}
+	var cardSprite = Config.CARDS[cardConfigName][1] + cardIndex;
+	this.id = cardSprite;
+	this.cardIndex = cardIndex;
+	this.cardConfigName = cardConfigName;
 
 	this.sprite = this.gameState.add.sprite(0, 0, cardSprite);
+
 	this.sprite.anchor.set(0.5);
 
 	// register event listeners.
@@ -32,92 +19,107 @@ Card = function(gameState, index){
 	this.sprite.events.onDragStart.add(this.onDragStart, this);
 	this.sprite.events.onDragStop.add(this.onDragStop, this);
 	this.sprite.events.onDragUpdate.add(this.onDragUpdate, this);
-
-	var cardNameStyle = {
-    font: "bold 35px Arial",
-    fill: "#fff",
-    boundsAlignH: "center",
-    boundsAlignV: "middle"
-  };
-
-	this.cardName = this.gameState.add.text(0, 0, 'Apple', cardNameStyle);
-	this.cardName.anchor.set(0.5);
 };
+
+Card.GAP_BETWEEN_CARDS = 1000 / Object.keys(Config.CARDS).length;
+Card.SAME_CATEGORY_CARD_BUFFER = 12;
 
 Card.prototype = {
 	onDragStart : function(sprite, pointer) {
-		this.scaleCard(1.1);
-
-		if (this.bucketId != -1) {
-			this.gameState.removeFromBucket(this.bucketId, this);
-			this.bucketId = -1;
+		if (this.bucket) {
+			this.gameState.removeFromBucket(this.bucket, this);
+			this.lastBucket = this.bucket;
+			this.bucket = null;
+			this.removingFromBucket = true;
 		}
 	},
 
 	onDragStop: function(sprite, pointer) {
-		this.scaleCard(1);
-
-		this.bucketId = this.gameState.getBucketByPosition(pointer.position);
-		if (this.bucketId != -1) {
-			this.gameState.addToBucket(this.bucketId, this);
+	    if (Bucket.scaledBeyond) {
+	    	if(Bucket.isInsideDropZone(pointer.position.x, pointer.position.y)) {
+				this.resetCardPositionAndScale();
+				this.hideCard();
+			} else {
+				this.bucket = this.lastBucket;
+				this.gameState.addToBucket(this.bucket, this);
+			}
+			this.removingFromBucket = false;	
+			return;	
+	    }
+		this.bucket = this.gameState.getBucketByPosition(pointer.position);
+		if (this.bucket) {
+			if (this.bucket.scaledBeyond) {
+				return;
+			}
+			this.gameState.addToBucket(this.bucket, this);
 			this.gameState.dispatchBucketScaleDown();
 			this.gameState.add.tween(sprite).to( {
 				alpha: 0,
 				visible: false
-			}, 500, Phaser.Easing.Linear.None, true);
-		} else {
+			}, 100, Phaser.Easing.Linear.None, true);
+		} else if (this.removingFromBucket) {
 			this.resetCardPositionAndScale();
 		}
+		this.removingFromBucket = false;
 	},
 
 	onDragUpdate: function(sprite, pointer) {
-		var bucketIndex = this.gameState.getBucketByPosition(pointer.position);
+		var bucket = this.gameState.getBucketByPosition(pointer.position);
 
-		if (bucketIndex != -1) {
-			this.gameState.dispatchBucketScaleUp(bucketIndex);
+		if (bucket) {
+			this.gameState.dispatchBucketScaleUp(bucket);
+			this.scaleCardDownWithAnimation();
 		} else {
 			this.gameState.dispatchBucketScaleDown();
+			this.scaleCardUpWithAnimation();
 		}
 	},
 
-	update: function() {
-		var yOffset = 0.35;
-
-		this.cardName.position.x = Math.floor(this.sprite.x); 
-		this.cardName.position.y = Math.floor(this.sprite.y + (yOffset * this.sprite.height));
-	},
-
-	scaleCard: function(factor){
-		this.sprite.scale.setTo(factor, factor);
-		this.cardName.scale.setTo(factor,factor);
-	},
-
 	resetCardPositionAndScale: function() {
-		this.sprite.position.x = 130 + this.positionIndex * 60,
-		this.sprite.position.y = 650;
-		
-		this.scaleCard(1);
-
-		this.sprite.alpha = 1;
-		this.sprite.visible = true;
+		this.sprite.position.x = (Card.GAP_BETWEEN_CARDS + Config.CARDS[this.cardConfigName][3] * Card.GAP_BETWEEN_CARDS) + Card.SAME_CATEGORY_CARD_BUFFER * this.cardIndex;
+		this.sprite.position.y = 650 + Card.SAME_CATEGORY_CARD_BUFFER * this.cardIndex;
+		this.bucket = null;
+		this.sprite.scale.setTo(1, 1);
+		this.showCard();
 	},
 
-	setCardInABucket: function(index, bucketX, bucketY, bucketRadius) {
+	repositionCardInScaledBeyondWindow: function(index) {
+		this.sprite.position.x = 650 + 180 * (index % 4);
+		this.sprite.position.y = 150 + 300 * Math.floor(index / 4);
+		this.sprite.scale.setTo(1, 1);
+		this.bringToTop();
 		this.showCard();
-		this.scaleCard(0.5);
+	},
+
+	scaleCardDownWithAnimation: function() {
+     this.gameState.add.tween(
+        this.sprite.scale).to( { x: 0.5, y: 0.5 },
+        150, Phaser.Easing.Linear.None, true);
+	},
+
+	scaleCardUpWithAnimation: function() {
+    this.gameState.add.tween(
+        this.sprite.scale).to( { x: 1, y: 1 },
+        150, Phaser.Easing.Linear.None, true);
 	},
 
 	hideCard: function() {
-		this.sprite.alpha = 0;
-		this.sprite.visible = false;
-
-		this.cardName.visible = false;
+		this.gameState.add.tween(this.sprite).to( {
+				alpha: 0,
+				visible: false
+			}, 100, Phaser.Easing.Linear.None, true);
 	},
 
 	showCard: function() {
 		this.sprite.alpha = 1;
-		this.sprite.visible = true;
+		this.gameState.add.tween(this.sprite).to( {
+				alpha: 1,
+				visible: true
+			}, 100, Phaser.Easing.Linear.None, true);
+	},
 
-		this.cardName.visible = true;
+	bringToTop: function() {
+		this.sprite.bringToTop();
+		this.scaleCardUpWithAnimation();
 	}
 };

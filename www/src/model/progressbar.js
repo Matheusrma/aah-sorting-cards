@@ -2,10 +2,12 @@
  * Defines a progressbar object.
  * @param titles an array of {@code TitleBar}s
  */
-ProgressBar = function(game, titles) {
+ProgressBar = function(game, titles, buckets) {
     this.titles = titles;
+    this.buckets = buckets;
     this.size = titles.length;
     this.index = -1;
+
     /* next button */
     this.nextButton;
     /* previous button */
@@ -36,15 +38,16 @@ ProgressBar.prototype = {
      * @return if this is the last element to render.
      */
     next: function(game) {
-        if(!this.canNavigateTo(this.index+1)) return;
-        this.titles[++this.index].render(this.titleBarElement);
-        this.renderProgressDots(game);
+        this.index++;
+        var isLast = !this.canNavigateTo(this.index);
+          
+        if (!isLast) { 
+            this.titles[this.index].render(this.titleBarElement);
+            this.renderProgressDots(game);
 
-        var isLast = !this.canNavigateTo(this.index+1);
-
-        if (isLast) {
-            this.nextButton.destroy();
+            game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
         }
+
         return isLast;
     },
     back: function(game) {
@@ -52,24 +55,30 @@ ProgressBar.prototype = {
 
         this.titles[--this.index].render(this.titleBarElement);
         this.renderProgressDots(game);
+        
+        game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
     },
     canNavigateTo: function(index) {
         return this.titles[index] != undefined;
     },
     render_: function(game) {
+        game.group.add(game.make.tileSprite(0, 0, 1280, 800, 'background'));
+
         this.titleBarElement = TitleBar.prepareForRendering(game);
 
-        this.nextButton = game.add.button(game.world.centerX + 510, 20,
+        this.nextButton = game.make.button(game.world.centerX + 510, 20,
             'arrow_right_base',
             game.startNextTemplate,
             game);
+        game.group.add(this.nextButton);
 
-        this.previousButton = game.add.button(game.world.centerX - 620, 20,
+        this.previousButton = game.make.button(game.world.centerX - 620, 20,
             'arrow_left_base',
             game.startPreviousTemplate,
             game);
+        game.group.add(this.previousButton);
 
-        this.next(game);
+        this.next(game)
     },
     renderProgressDots: function(game) {
         var yAxis = 20;
@@ -97,7 +106,6 @@ TitleBar = function(title, cardset) {
 
 TitleBar.prepareForRendering = function(game) {
     var titleBar = game.add.graphics();
-    titleBar.beginFill("#0000FF", 0.4);
     titleBar.drawRect(0, 0, 1280, 130);
 
     var titleElement = game.add.text(0, 20, '', TitleBar.getStyle());
