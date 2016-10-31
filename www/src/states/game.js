@@ -24,7 +24,7 @@ SortCards.Game.prototype = {
 	},
 
 	startNextTemplate: function(){
-		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
+		this.storageCtrl.saveTemplateResult(0, this.buckets);
 
 		var isLast = this.progressBar.next(this);
 
@@ -35,8 +35,6 @@ SortCards.Game.prototype = {
 	},
 
 	startPreviousTemplate: function(){
-		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
-		
 		this.resetCardsAndBuckets();
 		this.progressBar.back(this);
 	},
@@ -110,7 +108,7 @@ SortCards.Game.prototype = {
 	},
 
 	addEnlargedBucketControls: function() {
-	    this.backgroundSprite = this.add.tileSprite(0, 0, 1280, 800, 'background_drop');
+	    this.backgroundSprite = this.add.tileSprite(0, 0, 1280, 750, 'background_drop');
 	    this.backgroundSprite.tint = 0xffffff;
 	    this.backgroundSprite.height = window.screen.height;
 	    this.backgroundSprite.width = window.screen.width;

@@ -62,7 +62,7 @@ ProgressBar.prototype = {
         return this.titles[index] != undefined;
     },
     render_: function(game) {
-        game.group.add(game.make.tileSprite(0, 0, 1280, 800, 'background'));
+        game.group.add(game.make.tileSprite(0, 0, 1280, 750, 'background'));
 
         this.titleBarElement = TitleBar.prepareForRendering(game);
 
