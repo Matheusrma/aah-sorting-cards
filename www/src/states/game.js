@@ -8,7 +8,7 @@ SortCards.Game.prototype = {
 		this.storageCtrl = new StorageCtrl();
 		this.storageCtrl.generateNewUserId();
 
-		this.progressBar = new ProgressBar(this, Config.TEMPLATES, Config.BUCKETS);
+		this.progressBar = new ProgressBar(this, Config.TEMPLATES, Config.BUCKETS, this.storageCtrl);
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 
@@ -27,8 +27,6 @@ SortCards.Game.prototype = {
 	},
 
 	startNextTemplate: function(){
-		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
-
 		var isLast = this.progressBar.next(this);
 
 		if (isLast) {
@@ -38,7 +36,6 @@ SortCards.Game.prototype = {
 	},
 
 	startPreviousTemplate: function(){
-		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
 		this.progressBar.back(this);
 	},
 

@@ -2,7 +2,7 @@
  * Defines a progressbar object.
  * @param titles an array of {@code TitleBar}s
  */
-ProgressBar = function(game, titles, buckets) {
+ProgressBar = function(game, titles, buckets, storageCtrl) {
     this.titles = titles;
     this.buckets = buckets;
     this.size = titles.length;
@@ -19,6 +19,7 @@ ProgressBar = function(game, titles, buckets) {
 
     this.bucketsCache = {};
     this.cardsCache = {};
+    this.storageCtrl = storageCtrl;
 
     this.render_(game);
 };
@@ -59,6 +60,8 @@ ProgressBar.prototype = {
             game.cards = this.cardsCache[this.index] || game.createCardSet();
             game.resetCards();
             game.resetBuckets();
+        } else {
+            this.storageCtrl.saveTemplateResult(this.bucketsCache);
         }
 
         return isLast;
@@ -78,7 +81,7 @@ ProgressBar.prototype = {
         game.buckets = this.bucketsCache[this.index] || Bucket.createBuckets(game, this.buckets[this.index]);
         game.cards = this.cardsCache[this.index] || game.createCardSet();
         game.resetCards();
-            game.resetBuckets();
+        game.resetBuckets();
     },
     canNavigateTo: function(index) {
         return this.titles[index] != undefined;

@@ -47,15 +47,17 @@ SortCards.MainMenu.prototype = {
       url: url,
       data: params, 
       success: this.confirmSave.bind(this),
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-         alert("some error");
-      }
+      error: this.confirmSave.bind(this)
     });
   },
 
   confirmSave: function(data, status, j){
-    this.saveMessage.text = "Save Confirmed"
-    this.storageCtrl.clearTemplateResults()
+    if (status == "success") {
+      this.saveMessage.text = "Save Confirmed";
+    } else {
+      this.saveMessage.text = "Save Failed";
+    }
+    this.storageCtrl.clearTemplateResults();
     var msg = this.saveMessage;
     setInterval(function(){
       msg.text = "";
