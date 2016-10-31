@@ -24,7 +24,7 @@ SortCards.Game.prototype = {
 	},
 
 	startNextTemplate: function(){
-		this.storageCtrl.saveTemplateResult(0, this.buckets);
+		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
 
 		var isLast = this.progressBar.next(this);
 
@@ -35,6 +35,8 @@ SortCards.Game.prototype = {
 	},
 
 	startPreviousTemplate: function(){
+		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
+		
 		this.resetCardsAndBuckets();
 		this.progressBar.back(this);
 	},
