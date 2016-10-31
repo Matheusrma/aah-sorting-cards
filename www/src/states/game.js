@@ -4,23 +4,26 @@ SortCards.Game.prototype = {
 	create: function() {
 		this.group = this.add.group();
 		this.bucketGroup = this.add.group();
-		this.progressBar = new ProgressBar(this, Config.TEMPLATES, Config.BUCKETS);
 
 		this.storageCtrl = new StorageCtrl();
 		this.storageCtrl.generateNewUserId();
-		this.cards = [];
 
-		for (var card in Config.CARDS) {
-			for (var j = 0; j < Config.CARDS[card][0]; j++) {
-				this.cards.push(new Card(this, card, j));
-			} 
-		}
+		this.progressBar = new ProgressBar(this, Config.TEMPLATES, Config.BUCKETS);
 
 		this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.startNextTemplate, this);
 
-		this.resetCardsAndBuckets();
 		this.enlargedBucketGroup = this.add.group();
 		this.addEnlargedBucketControls();
+	},
+
+	createCardSet: function() {
+		var cards = [];
+		for (var card in Config.CARDS) {
+			for (var j = 0; j < Config.CARDS[card][0]; j++) {
+				cards.push(new Card(this, card, j));
+			} 
+		}
+		return cards;
 	},
 
 	startNextTemplate: function(){
@@ -29,21 +32,14 @@ SortCards.Game.prototype = {
 		var isLast = this.progressBar.next(this);
 
 		if (isLast) {
-			this.game.state.start('End');
+			window.open('img/end_video.mp4', '_blank');
+   			this.game.state.start('MainMenu');
 		}
-		else this.resetCardsAndBuckets();
 	},
 
 	startPreviousTemplate: function(){
 		this.storageCtrl.saveTemplateResult(this.progressBar.index, this.buckets);
-		
-		this.resetCardsAndBuckets();
 		this.progressBar.back(this);
-	},
-	
-	resetCardsAndBuckets: function() {
-		this.clearBuckets();
-		this.resetCards();
 	},
 
 	destroyCards: function(){
@@ -54,8 +50,16 @@ SortCards.Game.prototype = {
 
 	resetCards: function() {
 		for (var i = 0; i < this.cards.length; ++i){
-			this.cards[i].resetCardPositionAndScale();
-			this.cards[i].showCard();
+			if(!this.cards[i].bucket) {
+				this.cards[i].resetCardPositionAndScale();
+				this.cards[i].showCard();
+			}
+		}
+	},
+
+	resetBuckets: function() {
+		for (var i = 0; i < this.buckets.length; ++i){
+			this.buckets[i].show();
 		}
 	},
 
@@ -72,6 +76,18 @@ SortCards.Game.prototype = {
 			if(!this.cards[i].bucket) {
 				this.cards[i].hideCard();
 			}
+		}
+	},
+
+	hideAllCards: function() {
+		for (var i = 0; i < this.cards.length; ++i){
+				this.cards[i].hideCard();
+		}
+	},
+
+	hideAllBuckets: function() {
+		for (var i = 0; i < this.buckets.length; ++i){
+				this.buckets[i].hide();
 		}
 	},
 

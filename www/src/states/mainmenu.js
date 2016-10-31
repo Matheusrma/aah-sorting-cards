@@ -8,7 +8,9 @@ SortCards.MainMenu.prototype = {
                                             'arrow_right_base',
                                             this.startGame.bind(this),
                                             this.game);
-    this.storageCtrl = new StorageCtrl();
+    if (!this.storageCtrl) {
+      this.storageCtrl = new StorageCtrl();
+    }
 
     var style = { 
       font: "bold 100px Arial", 

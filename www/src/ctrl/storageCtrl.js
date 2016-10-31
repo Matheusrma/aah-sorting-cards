@@ -69,7 +69,6 @@ StorageCtrl.prototype = {
     });
 
     template_results.push(new_template_result);
-    localStorage.setItem(StorageCtrl.LOCAL_STORAGE_KEY_+templateId, JSON.stringify(new_template_result));
     localStorage.setItem(StorageCtrl.LOCAL_STORAGE_KEY_, JSON.stringify(template_results));
   },
 
@@ -83,11 +82,5 @@ StorageCtrl.prototype = {
 
   clearTemplateResults:function(){
     localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_);
-    for (i = 0; i < Config.TEMPLATES.length; i++) {
-      localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_+i);
-    }
-  },
-  rebuildCardsFromLocalStorage: function() {
-
   }
 }

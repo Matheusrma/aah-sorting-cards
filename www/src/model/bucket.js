@@ -8,7 +8,9 @@ Bucket = function(x, bucketText, game) {
   this.isScaledUp = false;
 
   /* Bucket sprite */
-  this.bucketSprite = game.bucketGroup.create(this.x, this.y, 'bucket');
+  this.internalBucketGroup = game.add.group();
+  game.bucketGroup.add(this.internalBucketGroup);
+  this.bucketSprite = this.internalBucketGroup.create(this.x, this.y, 'bucket');
   /* Resize the sprite */
   this.bucketSprite.scale.setTo(Bucket.originalScale, Bucket.originalScale);
   this.bucketSprite.anchor.setTo(0.5, 0.5);
@@ -24,7 +26,7 @@ Bucket = function(x, bucketText, game) {
 
   this.bucketText = bucketText
 
-  var text = game.add.text(0, 0, this.bucketText, bucketTextStyle, game.bucketGroup);
+  var text = game.add.text(0, 0, this.bucketText, bucketTextStyle, this.internalBucketGroup);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
   text.setTextBounds(this.x-this.radius, this.y+this.radius/8, 2*this.radius, 2*this.radius);
 
@@ -32,8 +34,8 @@ Bucket = function(x, bucketText, game) {
   scoreStyle.font = 'bold 30px Arial';
   scoreStyle.boundsAlignH = 'left';
 
-  this.scoreText = game.add.text(0, 0, '0', bucketTextStyle, game.bucketGroup);
-  game.bucketGroup.add(this.scoreText);
+  this.scoreText = game.add.text(0, 0, '0', bucketTextStyle, this.internalBucketGroup);
+  this.internalBucketGroup.add(this.scoreText);
   this.scoreText.setTextBounds(this.x-10, this.y - 20, 20, 50);
 
   // register event listeners.
@@ -50,9 +52,6 @@ Bucket.imageWidth = 388;
 Bucket.scaledBeyond = false;
 
 Bucket.createBuckets = function(game, bucketTexts) {
-  if (game.buckets) {
-    game.bucketGroup.removeAll(true);
-  }
   /* Enlarged bucket sprite */
   var scaledUpBucketSprite = game.add.sprite(500, 50, 'large_bucket');
   scaledUpBucketSprite.visible = false;
@@ -215,5 +214,13 @@ Bucket.prototype = {
 
   getText: function(){
     return this.bucketText;
-  }
+  },
+
+  hide: function() {
+    this.internalBucketGroup.visible = false;
+  },
+
+  show: function() {
+    this.internalBucketGroup.visible = true;
+  },
 };

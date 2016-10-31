@@ -17,6 +17,9 @@ ProgressBar = function(game, titles, buckets) {
     /* Progress dots */
     this.progressDots = [];
 
+    this.bucketsCache = {};
+    this.cardsCache = {};
+
     this.render_(game);
 };
 
@@ -38,25 +41,44 @@ ProgressBar.prototype = {
      * @return if this is the last element to render.
      */
     next: function(game) {
+        if (this.index != -1) {
+            this.bucketsCache[this.index] = game.buckets;
+            this.cardsCache[this.index] = game.cards;
+            game.hideAllCards();
+            game.hideAllBuckets();
+        }
+
         this.index++;
         var isLast = !this.canNavigateTo(this.index);
           
         if (!isLast) { 
             this.titles[this.index].render(this.titleBarElement);
             this.renderProgressDots(game);
-
-            game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
+        
+            game.buckets = this.bucketsCache[this.index] || Bucket.createBuckets(game, this.buckets[this.index]);
+            game.cards = this.cardsCache[this.index] || game.createCardSet();
+            game.resetCards();
+            game.resetBuckets();
         }
 
         return isLast;
     },
     back: function(game) {
+
         if(!this.canNavigateTo(this.index-1)) return;
+        
+        this.bucketsCache[this.index] = game.buckets;
+        this.cardsCache[this.index] = game.cards;
+        game.hideAllCards();
+        game.hideAllBuckets();  
 
         this.titles[--this.index].render(this.titleBarElement);
         this.renderProgressDots(game);
         
-        game.buckets = Bucket.createBuckets(game, this.buckets[this.index]);
+        game.buckets = this.bucketsCache[this.index] || Bucket.createBuckets(game, this.buckets[this.index]);
+        game.cards = this.cardsCache[this.index] || game.createCardSet();
+        game.resetCards();
+            game.resetBuckets();
     },
     canNavigateTo: function(index) {
         return this.titles[index] != undefined;
