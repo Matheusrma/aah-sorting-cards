@@ -22,7 +22,7 @@ Card = function(gameState, cardConfigName, cardIndex){
 };
 
 Card.GAP_BETWEEN_CARDS = 1000 / Object.keys(Config.CARDS).length;
-Card.SAME_CATEGORY_CARD_BUFFER = 12;
+Card.SAME_CATEGORY_CARD_BUFFER = 0;
 
 Card.prototype = {
 	onDragStart : function(sprite, pointer) {

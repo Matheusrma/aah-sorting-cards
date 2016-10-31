@@ -2,7 +2,7 @@ SortCards.MainMenu = function(game) {};
 
 SortCards.MainMenu.prototype = {
   create: function() {
-    this.game.add.tileSprite(0, 0, 1280, 800, 'background');
+    this.game.add.tileSprite(0, 0, 1280, 750, 'background');
 
     this.startButton = this.game.add.button(580, 480,
                                             'arrow_right_base',
@@ -40,11 +40,14 @@ SortCards.MainMenu.prototype = {
     var url = "https://script.google.com/macros/s/AKfycbyQgVp4y0JxcQO08UkpPlN3hUxESNiuaeHtQhPLZPOCbwr4pnmA/exec";
     var params = "data=" + analytics;
    
-    $.post({
+    $.ajax({
       type: "POST",
       url: url,
-      data: params,
-      success: this.confirmSave.bind(this)
+      data: params, 
+      success: this.confirmSave.bind(this),
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+         alert("some error");
+      }
     });
   },
 

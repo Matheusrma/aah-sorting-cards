@@ -23,7 +23,7 @@ StorageCtrl = function(){}
 
 StorageCtrl.LOCAL_STORAGE_KEY_ = 'template_results';
 
-StorageCtrl.SESSION_ID = -1;
+StorageCtrl.USER_ID = -1;
 
 StorageCtrl.prototype = {
 
@@ -32,29 +32,21 @@ StorageCtrl.prototype = {
   },
 
   generateNewUserId: function(){
-    StorageCtrl.SESSION_ID = this.generateRandomId()
+    StorageCtrl.USER_ID = this.generateRandomId()
   },
 
   saveTemplateResult:function(templateId, buckets){
     var template_results = this.recoverAllTemplateResults();
     
-    console.log(template_results)
-
     if (template_results.length > 0)
       template_results = JSON.parse(JSON.parse(template_results));
 
-    for (var i =  template_results.length - 1; i >= 0; --i){
-      if (template_results[i].templateId == templateId && 
-          template_results[i].session_id == StorageCtrl.SESSION_ID){
-        template_results.splice(i,1)
-      }
-    }
-
     new_template_result = {};
     new_template_result.id = this.generateRandomId();
-    new_template_result.timestamp = new Date();
     new_template_result.templateId = templateId;
-    new_template_result.session_id = StorageCtrl.SESSION_ID
+    new_template_result.user = {
+      id: StorageCtrl.USER_ID
+    }
 
     new_template_result.cardsMapping = [];
 
@@ -71,9 +63,7 @@ StorageCtrl.prototype = {
     });
 
     template_results.push(new_template_result);
-
-    console.log(template_results)
-
+    localStorage.setItem(StorageCtrl.LOCAL_STORAGE_KEY_+templateId, JSON.stringify(new_template_result));
     localStorage.setItem(StorageCtrl.LOCAL_STORAGE_KEY_, JSON.stringify(template_results));
   },
 
@@ -86,6 +76,12 @@ StorageCtrl.prototype = {
   },
 
   clearTemplateResults:function(){
-    localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_)
+    localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_);
+    for (i = 0; i < Config.TEMPLATES.length; i++) {
+      localStorage.removeItem(StorageCtrl.LOCAL_STORAGE_KEY_+i);
+    }
+  },
+  rebuildCardsFromLocalStorage: function() {
+
   }
 }
