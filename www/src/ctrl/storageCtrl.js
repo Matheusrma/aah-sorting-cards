@@ -46,7 +46,7 @@ StorageCtrl.prototype = {
       new_template_result = {};
       new_template_result.id = this.generateRandomId();
       new_template_result.timestamp = new Date();
-      new_template_result.templateId = 0;
+      new_template_result.templateId = i;
       new_template_result.session_id = StorageCtrl.SESSION_ID
       new_template_result.cardsMapping = [];
 

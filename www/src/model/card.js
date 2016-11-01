@@ -77,23 +77,29 @@ Card.prototype = {
 
 	resetCardPositionAndScale: function() {
 		this.sprite.position.x = (Card.GAP_BETWEEN_CARDS + Config.CARDS[this.cardConfigName][3] * Card.GAP_BETWEEN_CARDS) + Card.SAME_CATEGORY_CARD_BUFFER * this.cardIndex;
-		this.sprite.position.y = 650 + Card.SAME_CATEGORY_CARD_BUFFER * this.cardIndex;
+		this.sprite.position.y = 625 + Card.SAME_CATEGORY_CARD_BUFFER * this.cardIndex;
 		this.bucket = null;
 		this.sprite.scale.setTo(1, 1);
 		this.showCard();
 	},
 
 	repositionCardInScaledBeyondWindow: function(index) {
-		this.sprite.position.x = 650 + 180 * (index % 4);
-		this.sprite.position.y = 150 + 300 * Math.floor(index / 4);
+		this.sprite.position.x = 650 + 140 * (index % 5);
+		this.sprite.position.y = 150 + 200 * Math.floor(index / 5);
 		this.sprite.scale.setTo(1, 1);
 		this.bringToTop();
 		this.showCard();
 	},
 
+	scaleCardDownSlowly: function() {
+     this.gameState.add.tween(
+        this.sprite.scale).to( { x: 0.7, y: 0.7 },
+        200, Phaser.Easing.Linear.None, true);
+	},
+
 	scaleCardDownWithAnimation: function() {
      this.gameState.add.tween(
-        this.sprite.scale).to( { x: 0.5, y: 0.5 },
+        this.sprite.scale).to( { x: 0.7, y: 0.7 },
         150, Phaser.Easing.Linear.None, true);
 	},
 
