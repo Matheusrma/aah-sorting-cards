@@ -30,7 +30,7 @@ SortCards.Game.prototype = {
 		var isLast = this.progressBar.next(this);
 
 		if (isLast) {
-			window.open('img/end_video.mp4', '_blank');
+			window.open('file:///storage/emulated/0/Download/TVK3_480.mov', '_blank');
    			this.game.state.start('MainMenu');
 		}
 	},
@@ -125,8 +125,6 @@ SortCards.Game.prototype = {
 	addEnlargedBucketControls: function() {
 	    this.backgroundSprite = this.add.tileSprite(0, 0, 1280, 750, 'background_drop');
 	    this.backgroundSprite.tint = 0xffffff;
-	    this.backgroundSprite.height = window.screen.height;
-	    this.backgroundSprite.width = window.screen.width;
 
 	    this.closeBackgroundSprite = this.make.button(0, 0,
             'close_button',

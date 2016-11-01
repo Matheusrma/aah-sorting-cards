@@ -4,8 +4,8 @@ SortCards.MainMenu.prototype = {
   create: function() {
     this.game.add.tileSprite(0, 0, 1280, 750, 'background');
 
-    this.startButton = this.game.add.button(580, 480,
-                                            'arrow_right_base',
+    this.startButton = this.game.add.button(450, 450,
+                                            'start',
                                             this.startGame.bind(this),
                                             this.game);
     if (!this.storageCtrl) {
@@ -19,17 +19,17 @@ SortCards.MainMenu.prototype = {
       boundsAlignV: "middle"
     };
 
-    this.saveButton = this.game.add.button(this.game.world.centerX + 500, 700,
-                                           'arrow_right_base',
+    this.saveButton = this.game.add.button(100, 30,
+                                           'upload',
                                            this.sendSave.bind(this),
                                            this.game);
 
     this.saveMessage = this.game.add.text(700, 700, '', { 
-      font: "bold 36px Arial", 
+      font: "bold 30px Arial", 
       fill: "#fff"
     });
 
-    var titleElement = this.game.add.text(0, 300, 'Sorting Cards\nPress to Start', style);
+    var titleElement = this.game.add.text(0, 300, 'ក្នុងព្រះវិហារអាហារ', style);
     titleElement.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     titleElement.setTextBounds(0, 00, 1280, 130);
   },

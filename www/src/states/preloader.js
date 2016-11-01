@@ -20,6 +20,8 @@ SortCards.Preloader.prototype = {
     this.load.image('dot_active', 'img/dot_current.png');
     this.load.image('dot_passive', 'img/dot.png');
 
+    this.load.image('start', 'img/StartButton.png');
+    this.load.image('upload', 'img/Upload.png');
     this.load.image('score_bucket', 'img/Bucket.png');
     this.load.image('bucket', 'img/Bucket.png');
     this.load.image('large_bucket', 'img/BigDropBasket.png');
