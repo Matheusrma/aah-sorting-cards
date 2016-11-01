@@ -24,7 +24,7 @@ SortCards.MainMenu.prototype = {
                                            this.sendSave.bind(this),
                                            this.game);
 
-    this.saveMessage = this.game.add.text(700, 700, '', { 
+    this.saveMessage = this.game.add.text(160, 60, '', { 
       font: "bold 30px Arial", 
       fill: "#fff"
     });
@@ -56,7 +56,7 @@ SortCards.MainMenu.prototype = {
       this.saveMessage.text = "Save Confirmed";
       this.storageCtrl.clearTemplateResults();
     } else {
-      this.saveMessage.text = "Save Failed";
+      this.saveMessage.text = "Save Failed. Please check your internet connection !";
     }
     var msg = this.saveMessage;
     setInterval(function(){
