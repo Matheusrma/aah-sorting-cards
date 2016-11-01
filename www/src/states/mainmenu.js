@@ -54,10 +54,10 @@ SortCards.MainMenu.prototype = {
   confirmSave: function(data, status, j){
     if (status == "success") {
       this.saveMessage.text = "Save Confirmed";
+      this.storageCtrl.clearTemplateResults();
     } else {
       this.saveMessage.text = "Save Failed";
     }
-    this.storageCtrl.clearTemplateResults();
     var msg = this.saveMessage;
     setInterval(function(){
       msg.text = "";

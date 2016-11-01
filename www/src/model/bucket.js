@@ -3,7 +3,7 @@ Bucket = function(x, bucketText, game) {
   this.cards = [];
   this.game = game;
   this.radius = Bucket.imageDiameter / 2;
-  this.y = 120 + this.radius;
+  this.y = 140 + this.radius;
   this.x = x + this.radius;
   this.isScaledUp = false;
 
@@ -28,7 +28,7 @@ Bucket = function(x, bucketText, game) {
 
   var text = game.add.text(0, 0, this.bucketText, bucketTextStyle, this.internalBucketGroup);
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-  text.setTextBounds(this.x-this.radius, this.y+this.radius/8, 2*this.radius, 1.2*this.radius);
+  text.setTextBounds(this.x-this.radius, this.y+this.radius/8, 2*this.radius, 1.5*this.radius);
 
   var scoreStyle = bucketTextStyle;
   scoreStyle.font = 'bold 30px Arial';
@@ -43,7 +43,7 @@ Bucket = function(x, bucketText, game) {
   this.bucketSprite.events.onInputDown.add(this.scaleUpAndBeyond, this);
 };
 
-Bucket.originalScale = 1;
+Bucket.originalScale = 0.8;
 /* Diameter of the buckets */
 Bucket.imageDiameter = 0;
 
@@ -107,10 +107,9 @@ Bucket.prototype = {
     this.game.group.visible = false;
     this.game.hideCardsWithoutBuckets();
     // show cards
-    var self = this; 
-    for (i = 0; i < self.cards.length; i++) {
-      self.cards[i].repositionCardInScaledBeyondWindow(i);
-      self.cards[i].scaleCardDownSlowly();   
+    for (i = 0; i < this.cards.length; i++) {
+      this.cards[i].repositionCardInScaledBeyondWindow(i);
+      this.cards[i].scaleCardDownSlowly();   
     }
     Bucket.scaledBeyond = true;
   },
