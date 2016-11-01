@@ -24,6 +24,6 @@ Config = {
         MEAT: [4, 'card_meat_', 'img/meat_', 1],
         LEGUME: [5, 'card_legume_', 'img/legume_', 2],
         FRUIT: [10, 'card_fruit_', 'img/fruit_', 3],
-		STARCH: [6, 'card_starch_', 'img/starch_', 4]
+		    STARCH: [6, 'card_starch_', 'img/starch_', 4]
     }
 }

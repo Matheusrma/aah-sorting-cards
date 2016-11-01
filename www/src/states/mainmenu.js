@@ -2,7 +2,7 @@ SortCards.MainMenu = function(game) {};
 
 SortCards.MainMenu.prototype = {
   create: function() {
-    this.game.add.tileSprite(0, 0, 1280, 750, 'background');
+    this.game.add.tileSprite(0, 0, 1280, 750, 'background_start');
 
     this.startButton = this.game.add.button(450, 450,
                                             'start',
@@ -19,7 +19,7 @@ SortCards.MainMenu.prototype = {
       boundsAlignV: "middle"
     };
 
-    this.saveButton = this.game.add.button(100, 30,
+    this.saveButton = this.game.add.button(50, 30,
                                            'upload',
                                            this.sendSave.bind(this),
                                            this.game);
