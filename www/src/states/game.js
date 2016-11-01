@@ -30,7 +30,7 @@ SortCards.Game.prototype = {
 		var isLast = this.progressBar.next(this);
 
 		if (isLast) {
-			window.open('file:///storage/emulated/0/Download/TVK3_480.mov', '_blank');
+			// window.open('file:///storage/emulated/0/Download/TVK3_480.mov', '_blank');  -- use <intent>
    			this.game.state.start('MainMenu');
 		}
 	},
