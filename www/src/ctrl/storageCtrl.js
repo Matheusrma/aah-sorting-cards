@@ -52,7 +52,7 @@ StorageCtrl.prototype = {
 
       buckets.forEach(function (bucket){
         var cardIds = bucket.getCardIds();
-        var bucketText = bucket.getText();
+        var bucketText = i;
 
         cardIds.forEach(function(cardId){
           new_template_result.cardsMapping.push({

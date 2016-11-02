@@ -29,7 +29,7 @@ SortCards.Preloader.prototype = {
 
     this.load.image('background', 'img/Background.png');
     this.load.image('background_start', 'img/Background_Start.png');
-	this.load.video('end_video', 'img/end_video.mov');
+	this.load.video('end_video', 'img/end_video.mp4', null, true);
 	},
 
 	create: function() {

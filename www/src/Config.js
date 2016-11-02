@@ -23,5 +23,6 @@ Config = {
         VEGETARIAN: [10, 'card_vegetable_', 'img/vegetable_', 0],
         FRUIT: [10, 'card_fruit_', 'img/fruit_', 1],
         STARCH: [6, 'card_starch_', 'img/starch_', 2]
-    }
+    },
+    GAME_TITLE: 'ក្នុងព្រះវិហារអាហារ'
 }

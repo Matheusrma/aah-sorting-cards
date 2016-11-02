@@ -19,17 +19,21 @@ SortCards.MainMenu.prototype = {
       boundsAlignV: "middle"
     };
 
-    this.saveButton = this.game.add.button(50, 30,
-                                           'upload',
-                                           this.sendSave.bind(this),
-                                           this.game);
+    var analytics = this.storageCtrl.recoverAllTemplateResults();
+
+    if (analytics && analytics.length != 0) {
+      this.saveButton = this.game.add.button(50, 30,
+                                             'upload',
+                                             this.sendSave.bind(this),
+                                             this.game);
+    }
 
     this.saveMessage = this.game.add.text(160, 60, '', { 
       font: "bold 30px Arial", 
       fill: "#fff"
     });
 
-    var titleElement = this.game.add.text(0, 300, 'ក្នុងព្រះវិហារអាហារ', style);
+    var titleElement = this.game.add.text(0, 300, Config.GAME_TITLE, style);
     titleElement.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     titleElement.setTextBounds(0, 00, 1280, 130);
   },
@@ -55,12 +59,13 @@ SortCards.MainMenu.prototype = {
     if (status == "success") {
       this.saveMessage.text = "Save Confirmed";
       this.storageCtrl.clearTemplateResults();
+      this.saveButton.visible = false;
     } else {
       this.saveMessage.text = "Save Failed. Please check your internet connection !";
     }
-    var msg = this.saveMessage;
+    var that = this;
     setInterval(function(){
-      msg.text = "";
+      that.saveMessage.text = "";
     },2000)
   },
 
