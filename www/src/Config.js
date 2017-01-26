@@ -20,9 +20,9 @@ Config = {
     ],
     CARDS: {
         // Type: [COUNT, IMAGE_PREFIX, IMAGE/PATH_PREFIX, CARD_POSITION]
-        VEGETARIAN: [10, 'card_vegetable_', 'img/vegetable_', 0],
-        FRUIT: [10, 'card_fruit_', 'img/fruit_', 1],
-        STARCH: [6, 'card_starch_', 'img/starch_', 2]
+        VEGETARIAN: [10, 'card_vegetable_', 'vegetable_', 0],
+        FRUIT: [10, 'card_fruit_', 'fruit_', 1],
+        STARCH: [6, 'card_starch_', 'starch_', 2]
     },
     GAME_TITLE: 'ក្នុងព្រះវិហារអាហារ'
 }

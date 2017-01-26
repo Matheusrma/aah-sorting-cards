@@ -4,7 +4,8 @@ SortCards.Preloader.prototype = {
 	preload: function() {
 		for (var card in Config.CARDS){
             for (j = 0; j< Config.CARDS[card][0]; j++) {
-                this.load.image(Config.CARDS[card][1] + j, Config.CARDS[card][2] + j + '.png');
+                this.load.image(Config.CARDS[card][1] + j, 'img/' + Config.CARDS[card][2] + j + '.png');
+                this.load.audio("audio_" + Config.CARDS[card][1] + j, ['audio/card_' + Config.CARDS[card][2] + j + '.m4a']);
             }
         }
     

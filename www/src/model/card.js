@@ -13,18 +13,25 @@ Card = function(gameState, cardConfigName, cardIndex){
 
 	this.sprite.anchor.set(0.5);
 
+	this.audioFile = this.gameState.add.audio('audio_'+this.id);
+
 	// register event listeners.
 	this.sprite.inputEnabled = true;
 	this.sprite.input.enableDrag();
 	this.sprite.events.onDragStart.add(this.onDragStart, this);
 	this.sprite.events.onDragStop.add(this.onDragStop, this);
 	this.sprite.events.onDragUpdate.add(this.onDragUpdate, this);
+    this.sprite.events.onInputDown.add(this.onSpriteClick, this);
 };
 
 Card.GAP_BETWEEN_CARDS = 1000 / Object.keys(Config.CARDS).length;
 Card.SAME_CATEGORY_CARD_BUFFER = 0;
 
 Card.prototype = {
+	onSpriteClick: function() {
+		this.audioFile.play();
+	},
+
 	onDragStart : function(sprite, pointer) {
 		if (this.bucket) {
 			this.gameState.removeFromBucket(this.bucket, this);
