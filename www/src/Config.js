@@ -21,8 +21,11 @@ Config = {
     CARDS: {
         // Type: [COUNT, IMAGE_PREFIX, IMAGE/PATH_PREFIX, CARD_POSITION]
         VEGETARIAN: [10, 'card_vegetable_', 'vegetable_', 0],
-        FRUIT: [10, 'card_fruit_', 'fruit_', 1],
-        STARCH: [6, 'card_starch_', 'starch_', 2]
+        FRUIT: [7, 'card_fruit_', 'fruit_', 1],
+        LEGUME: [3, 'card_legume_', 'legume_', 2],
+		MEAT: [5, 'card_meat_', 'meat_', 3],
+		JUNKFOOD: [3, 'card_junkfood_', 'junkfood_', 4],
+		STARCH: [5, 'card_starch_', 'starch_', 5]
     },
     GAME_TITLE: 'ក្នុងព្រះវិហារអាហារ'
 }
